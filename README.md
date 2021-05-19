@@ -28,6 +28,12 @@ they spend the money. In addition to this, there's a graphic analysis of the dat
 
 ### Screenshots
 
+![Main view](https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/MainPage.png)
+![Accounts](https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/AccountPresentation.png)
+![Movement](https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/CreateMovement.png)
+![SingleAccount](https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/CreateAccount.png)
+<img src="https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/DataAnalysis.png" width="800" height="400">
+
 ## Code
 
 [![Build Status](https://qa.nuxeo.org/jenkins/buildStatus/icon?job=/nuxeo/addons_nuxeo-sample-project-master)](https://github.com/DaniloErazo/CashManager/tree/main)
