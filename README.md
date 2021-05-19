@@ -47,7 +47,7 @@ they spend the money. In addition to this, there's a graphic analysis of the dat
 ## Resources (Documentation and other links)
 
 * Class diagram: 
-* Requirements elicitation, project description (Spanish): 
+* [Requirements elicitation, project description (Spanish):](https://github.com/DaniloErazo/CashManager/blob/main/docs/Cash%20Manager.pdf) 
 
 ## Contributors
 
