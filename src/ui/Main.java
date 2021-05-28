@@ -15,7 +15,10 @@ public class Main extends Application {
 	
 
 	public static void main(String[] args) {
-		mainGUI= new MainController(); 
+		Locale.setDefault(new Locale("es", "CO"));
+		
+		ResourceBundle bundle = ResourceBundle.getBundle(("ui.Messages"), Locale.getDefault());
+		mainGUI= new MainController(bundle); 
 		
 		launch(args);
 		

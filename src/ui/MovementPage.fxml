@@ -16,7 +16,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="614.0" style="-fx-background-color: #2A9D8F;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <Label text="Crear movimiento" BorderPane.alignment="CENTER">
+      <Label text="%movement.title" BorderPane.alignment="CENTER">
          <font>
             <Font name="Agency FB" size="27.0" />
          </font>
@@ -34,7 +34,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label text="Cuentas disponibles:" textFill="#f4e9cd">
+                  <Label text="%available.accounts" textFill="#f4e9cd">
                      <GridPane.margin>
                         <Insets left="20.0" />
                      </GridPane.margin>
@@ -42,7 +42,7 @@
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <SplitMenuButton mnemonicParsing="false" text="Cuentas" GridPane.columnIndex="1">
+                  <SplitMenuButton mnemonicParsing="false" text="%display.accounts" GridPane.columnIndex="1">
                      <items>
                         <MenuItem mnemonicParsing="false" text="Action 1" />
                         <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -73,41 +73,41 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label text="Monto:" textFill="#f4e9cd">
+                        <Label text="%movement.amount" textFill="#f4e9cd">
                            <font>
                               <Font size="19.0" />
                            </font>
                         </Label>
                         <TextField fx:id="amountCashTxt" GridPane.columnIndex="1" />
-                        <Label text="Fecha y Hora:" textFill="#f4e9cd" GridPane.rowIndex="1">
+                        <Label text="%date.hour" textFill="#f4e9cd" GridPane.rowIndex="1">
                            <font>
                               <Font size="19.0" />
                            </font>
                         </Label>
                         <DatePicker prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label text="Descripción:" textFill="#f4e9cd" GridPane.rowIndex="2">
+                        <Label text="%movement.description" textFill="#f4e9cd" GridPane.rowIndex="2">
                            <font>
                               <Font size="19.0" />
                            </font>
                         </Label>
                         <TextField fx:id="movementDescTxt" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Label text="Tipo:" textFill="#f4e9cd" GridPane.rowIndex="3">
+                        <Label text="%movement.type" textFill="#f4e9cd" GridPane.rowIndex="3">
                            <font>
                               <Font size="19.0" />
                            </font>
                         </Label>
-                        <SplitMenuButton fx:id="typesMovementSplit" mnemonicParsing="false" text="Ingreso" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <SplitMenuButton fx:id="typesMovementSplit" mnemonicParsing="false" text="%movementType.display" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <items>
                               <MenuItem mnemonicParsing="false" text="Action 1" />
                               <MenuItem mnemonicParsing="false" text="Action 2" />
                            </items>
                         </SplitMenuButton>
-                        <Label text="Categoría:" textFill="#f4e9cd" GridPane.rowIndex="4">
+                        <Label text="%movement.category" textFill="#f4e9cd" GridPane.rowIndex="4">
                            <font>
                               <Font size="19.0" />
                            </font>
                         </Label>
-                        <SplitMenuButton fx:id="categoriesMovementSplit" mnemonicParsing="false" text="Categorías" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <SplitMenuButton fx:id="categoriesMovementSplit" mnemonicParsing="false" text="movementCategory.display" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <items>
                               <MenuItem mnemonicParsing="false" text="Action 1" />
                               <MenuItem mnemonicParsing="false" text="Action 2" />
