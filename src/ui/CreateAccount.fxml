@@ -7,6 +7,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -14,16 +15,16 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="474.0" prefWidth="614.0" style="-fx-background-color: #9dbebb;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="336.0" prefWidth="521.0" style="-fx-background-color: #2A9D8F;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <Label text="Crear cuenta" BorderPane.alignment="CENTER">
          <font>
-            <Font name="Agency FB" size="27.0" />
+            <Font size="23.0" />
          </font>
       </Label>
    </top>
    <center>
-      <BorderPane prefHeight="380.0" prefWidth="651.0" style="-fx-background-color: #468189;" BorderPane.alignment="CENTER">
+      <BorderPane prefHeight="380.0" prefWidth="651.0" style="-fx-background-color: #264653;" BorderPane.alignment="CENTER">
          <top>
             <GridPane prefHeight="73.0" prefWidth="744.0" BorderPane.alignment="CENTER">
                <columnConstraints>
@@ -39,10 +40,10 @@
                         <Insets left="20.0" />
                      </GridPane.margin>
                      <font>
-                        <Font name="Agency FB" size="25.0" />
+                        <Font size="19.0" />
                      </font>
                   </Label>
-                  <SplitMenuButton mnemonicParsing="false" text="Ahorro" GridPane.columnIndex="1">
+                  <SplitMenuButton mnemonicParsing="false" style="-fx-background-color: #264653; -fx-border-color: #264653;" text="Cuentas" GridPane.columnIndex="1">
                      <items>
                         <MenuItem mnemonicParsing="false" text="Action 1" />
                         <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -58,9 +59,9 @@
             </GridPane>
          </top>
          <center>
-            <AnchorPane prefHeight="363.0" prefWidth="642.0" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="320.0" prefWidth="614.0" BorderPane.alignment="CENTER">
                <children>
-                  <GridPane layoutX="111.0" layoutY="37.0" prefHeight="242.0" prefWidth="393.0">
+                  <GridPane layoutX="72.0" layoutY="14.0" prefHeight="132.0" prefWidth="378.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -73,25 +74,31 @@
                      <children>
                         <Label text="Nombre:" textFill="#f4e9cd">
                            <font>
-                              <Font name="Agency FB" size="25.0" />
+                              <Font size="17.0" />
                            </font>
                         </Label>
-                        <TextField GridPane.columnIndex="1" />
+                        <TextField GridPane.columnIndex="1">
+                           <effect>
+                              <ColorAdjust />
+                           </effect></TextField>
                         <Label text="Meta de ahorro" textFill="#f4e9cd" GridPane.rowIndex="1">
                            <font>
-                              <Font name="Agency FB" size="25.0" />
+                              <Font size="17.0" />
                            </font>
                         </Label>
-                        <DatePicker prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <DatePicker prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <effect>
+                              <ColorAdjust />
+                           </effect></DatePicker>
                         <Label text="Descripción:" textFill="#f4e9cd" GridPane.rowIndex="2">
                            <font>
-                              <Font name="Agency FB" size="25.0" />
+                              <Font size="17.0" />
                            </font>
                         </Label>
                         <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
-                  <Button layoutX="265.0" layoutY="306.0" mnemonicParsing="false" text="Crear cuenta" />
+                  <Button layoutX="219.0" layoutY="171.0" mnemonicParsing="false" style="-fx-background-color: #2A9D8F;" text="Crear cuenta" />
                </children>
             </AnchorPane>
          </center>

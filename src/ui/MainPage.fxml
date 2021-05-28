@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="576.0" prefWidth="258.0" style="-fx-background-color: #2A9D8F;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="userInfo" mnemonicParsing="false" onAction="#loadContents" style="-fx-background-color: #2A9D8F;">
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="86.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/User-512.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Label text="%user.welcome">
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
+            </Label>
+            <Button fx:id="normalAccount" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#loadContents" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: 264653;" text="%saving.account">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="31.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/exelent-card-icon-gallery-business-card-icon-11562916835ivf8n00mun-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="creditAccount" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#loadContents" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: 264653;" text="%credit.account">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/credit-card-2.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="savingAccount" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#loadContents" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: 264653;" text="%saving">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="38.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/ffaa8618647670b17c75987cbc4cf050-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="debtAccount" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#loadContents" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: 264653;" text="%debt.account">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/2577674-removebg-preview.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="movement" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#loadContents" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: 264653;" text="%add.movement" textFill="#323232">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="37.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/152360.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="movementAccounts" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#loadContents" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: 264653;" text="%movement.Accounts" textFill="#323232">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+               <graphic>
+                  <ImageView fitHeight="37.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/152360.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </VBox>
+      <StackPane layoutX="258.0" prefHeight="576.0" prefWidth="793.0" style="-fx-background-color: #02030A;">
+         <children>
+            <BorderPane fx:id="paneContents" prefHeight="511.0" prefWidth="200.0" style="-fx-background-color: #264653;" />
+            <BorderPane fx:id="paneOverview" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #264653;">
+               <top>
+                  <VBox prefHeight="159.0" prefWidth="793.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="80.0" prefWidth="793.0" text="%title" textAlignment="CENTER" textFill="#e7e5e5" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="CENTER" prefHeight="124.0" prefWidth="793.0" spacing="50.0">
+                           <children>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label fx:id="totalCash" text="0" textFill="#26bfbc">
+                                       <font>
+                                          <Font name="System Bold" size="26.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="%total.money" textFill="#e7e5e5" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="92.0" prefWidth="119.0">
+                                 <children>
+                                    <Label fx:id="accountCount" text="0" textFill="#2a73ff">
+                                       <font>
+                                          <Font name="System Bold" size="26.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="%accounts.count" textFill="#e7e5e5" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Label fx:id="debtCount" text="0" textFill="#de0000">
+                                       <font>
+                                          <Font name="System Bold" size="26.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="%total.debt" textFill="#e7e5e5" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </top>
+               <center>
+                  <TableView fx:id="lastMovementsTv" prefHeight="381.0" prefWidth="434.0" BorderPane.alignment="CENTER">
+                     <columns>
+                        <TableColumn fx:id="movementTc" prefWidth="93.0" text="%table.movement" />
+                        <TableColumn fx:id="amountTc" prefWidth="74.0" text="%table.amount" />
+                        <TableColumn fx:id="dateTc" prefWidth="81.0" text="%table.date" />
+                        <TableColumn fx:id="descriptionTc" prefWidth="84.0" text="%table.description" />
+                        <TableColumn fx:id="typeTc" prefWidth="43.0" text="%table.type" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                     <BorderPane.margin>
+                        <Insets bottom="30.0" left="30.0" right="30.0" />
+                     </BorderPane.margin>
+                  </TableView>
+               </center>
+            </BorderPane>
+         </children>
+      </StackPane>
+   </children>
+   <effect>
+      <DropShadow color="#1b1eeb" />
+   </effect>
+</AnchorPane>
