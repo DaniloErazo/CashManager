@@ -9,6 +9,10 @@ public class User {
 		setName(n);
 		setPassword(p);
 	}
+	
+	public User(String n) {
+		setName(n);
+	}
 
 	public String getName() {
 		return name;
@@ -26,5 +30,4 @@ public class User {
 		this.password = password;
 	}
 	
-
 }
