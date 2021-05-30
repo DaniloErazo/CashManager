@@ -6,10 +6,9 @@ public class CreditAccount extends Account implements Fee{
 	private double monthFee;
 	private double maxQuota;
 	
-	public CreditAccount(String name, Movement firstIncon, Movement spend, Movement betweenAccount, double interest, double monthFee, double maxQuota) {
-		super(name, firstIncon, spend, betweenAccount);
+	public CreditAccount(String name, double interest, double maxQuota) {
+		super(name);
 		this.interest = interest;
-		this.monthFee = monthFee;
 		this.maxQuota = maxQuota;
 	}
 

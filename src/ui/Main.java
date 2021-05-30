@@ -8,17 +8,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.CashManager;
 
 public class Main extends Application {
 	
 	private static MainController mainGUI;
-	
+	private static CashManager ppal;
 
 	public static void main(String[] args) {
 		Locale.setDefault(new Locale("es", "CO"));
 		
+		ppal = new CashManager();
+		
 		ResourceBundle bundle = ResourceBundle.getBundle(("ui.Messages"), Locale.getDefault());
-		mainGUI= new MainController(bundle); 
+		mainGUI= new MainController(bundle, ppal); 
 		
 		launch(args);
 		
@@ -39,6 +42,7 @@ public class Main extends Application {
 		
 		fxmlLoader.setController(mainGUI);
 		
+		primaryStage.setResizable(false);
 		
 		Parent root = fxmlLoader.load();
 		

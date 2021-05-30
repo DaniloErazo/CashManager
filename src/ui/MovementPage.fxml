@@ -107,7 +107,7 @@
                               <Font size="19.0" />
                            </font>
                         </Label>
-                        <SplitMenuButton fx:id="categoriesMovementSplit" mnemonicParsing="false" text="movementCategory.display" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <SplitMenuButton fx:id="categoriesMovementSplit" mnemonicParsing="false" text="%movementCategory.display" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <items>
                               <MenuItem mnemonicParsing="false" text="Action 1" />
                               <MenuItem mnemonicParsing="false" text="Action 2" />

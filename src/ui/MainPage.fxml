@@ -19,18 +19,14 @@
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="576.0" prefWidth="258.0" style="-fx-background-color: #2A9D8F;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="userInfo" mnemonicParsing="false" onAction="#loadContents" style="-fx-background-color: #2A9D8F;">
+            <ImageView fx:id="userInfo" fitHeight="86.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/User-512.png" />
+               </image>
                <VBox.margin>
-                  <Insets top="30.0" />
+                  <Insets top="35.0" />
                </VBox.margin>
-               <graphic>
-                  <ImageView fitHeight="86.0" fitWidth="93.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/User-512.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
+            </ImageView>
             <Label text="%user.welcome">
                <VBox.margin>
                   <Insets bottom="20.0" />

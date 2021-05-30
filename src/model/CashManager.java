@@ -8,6 +8,79 @@ public class CashManager {
 	private ArrayList<SavingAccount> savingAccounts;
 	private ArrayList<Debt> debts;
 	private ArrayList<Saving> savings;
+	private ArrayList<Category> categorySpend;
+	
+	
+	public CashManager() {
+		creditAccounts = new ArrayList<>();
+		savingAccounts = new ArrayList<>();
+		debts = new ArrayList<>();
+		savings = new ArrayList<>();
+		categorySpend = new ArrayList<>();
+	}
+	
+	public void createSavingAccount(String name, double money) {
+		SavingAccount newAccount = new SavingAccount(name, money);
+		savingAccounts.add(newAccount);
+	}
+	
+	public void createCreditAccount(String name, double interest, double quota) {
+		CreditAccount newAccount = new CreditAccount(name, interest, quota);
+		creditAccounts.add(newAccount);
+	}
+	
+	public void createDebt (String name, double interest, int fee, double money) {
+		Debt newDebt = new Debt(name, money, interest, fee);
+		debts.add(newDebt);
+	}
+	
+	public void createSaving(String name, double money) {
+		Saving newSaving = new Saving(name, money);
+		savings.add(newSaving);
+	}
+	
+	/**
+	 * 0 for saving account, 1 for credit, 2 for saving, 3 for debt
+	 *
+	 */
+	public boolean accountExist(int type, String name) {
+		boolean exist = false;
+		switch (type) {
+		case 0:
+			for (int i = 0; i <savingAccounts.size(); i++) {
+				if(savingAccounts.get(i).getName().equals(name)) {
+					exist=true;
+				}
+			}
+			break;
+		case 1:
+			for (int i = 0; i <creditAccounts.size(); i++) {
+				if(creditAccounts.get(i).getName().equals(name)) {
+					exist=true;
+				}
+			}
+			break;
+		case 2:
+			for (int i = 0; i <savings.size(); i++) {
+				if(savings.get(i).getNameMoneyManagment().equals(name)) {
+					exist=true;
+				}
+			}
+			break;
+		case 3:
+			for (int i = 0; i <debts.size(); i++) {
+				if(debts.get(i).getNameMoneyManagment().equals(name)) {
+					exist=true;
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		
+		
+		return exist;
+	}
 
 	public ArrayList<CreditAccount> getCreditAccounts() {
 		return creditAccounts;
@@ -39,6 +112,14 @@ public class CashManager {
 
 	public void setSavings(ArrayList<Saving> savings) {
 		this.savings = savings;
+	}
+
+	public ArrayList<Category> getCategorySpend() {
+		return categorySpend;
+	}
+
+	public void setCategorySpend(ArrayList<Category> categorySpend) {
+		this.categorySpend = categorySpend;
 	}
 
 }

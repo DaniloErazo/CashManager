@@ -5,6 +5,12 @@ public class Debt extends MoneyManagement implements Fee {
 	private double interest;
 	private int fees;
 	private double balance;
+	
+	public Debt(String name, double max, double interest, int fees) {
+		super(name, max);
+		this.interest=interest;
+		this.fees=fees;
+	}
 
 	public double getInterest() {
 		return interest;
