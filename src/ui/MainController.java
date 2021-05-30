@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -24,17 +23,18 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import model.CashManager;
+import model.Clock;
 
-public class MainController implements Initializable{
+
+	public class MainController implements Initializable{
 	
-	
-	//------------------------------- MainPage.fxml ---------------------------------
+
+//------------------------------- MainPage.fxml ---------------------------------
 	
 	ResourceBundle bundle;
 	private final CashManager cashManager;
@@ -69,7 +69,7 @@ public class MainController implements Initializable{
     private Button movement;
     
     @FXML
-    private ImageView userInfo;
+    private Button userInfo;
 
     @FXML
     private Button movementAccounts;
@@ -97,6 +97,15 @@ public class MainController implements Initializable{
 
     @FXML
     private TableColumn<?, ?> typeTc;
+    
+    @FXML
+    private Label time;
+    
+    @FXML
+    public void initialize() {
+    	Clock clock = new Clock(time);
+    	clock.start();
+    }
     
     @FXML
     public void loadContents(ActionEvent actionEvent) throws IOException {
@@ -238,8 +247,7 @@ public class MainController implements Initializable{
     
   //-----------------------------------------------------------------------------------
     
-    
-    
+
   //---------------------------GraphicAnalysis.fxml -----------------------------------
     
     @FXML

@@ -25,8 +25,6 @@ public class Main extends Application {
 		
 		launch(args);
 		
-		
-
 	}
 
 	@Override
@@ -43,6 +41,8 @@ public class Main extends Application {
 		fxmlLoader.setController(mainGUI);
 		
 		primaryStage.setResizable(false);
+		
+		mainGUI.initialize();
 		
 		Parent root = fxmlLoader.load();
 		
