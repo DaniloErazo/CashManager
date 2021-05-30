@@ -31,10 +31,10 @@ import model.CashManager;
 import model.Clock;
 
 
-	public class MainController implements Initializable{
+public class MainController implements Initializable{
 	
 
-//------------------------------- MainPage.fxml ---------------------------------
+	//------------------------------- MainPage.fxml ---------------------------------
 	
 	ResourceBundle bundle;
 	private final CashManager cashManager;
@@ -101,11 +101,25 @@ import model.Clock;
     @FXML
     private Label time;
     
-    @FXML
-    public void initialize() {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	@FXML
+    public void initialize(URL location, ResourceBundle resources) {
     	Clock clock = new Clock(time);
     	clock.start();
-    }
+    	userInfo.setPickOnBounds(true);
+		
+		userInfo.setOnMouseClicked(new EventHandler() {
+	       
+			@Override
+			public void handle(Event event) {
+				
+				paneOverview.setVisible(true);
+				paneContents.setVisible(false);
+				
+			}
+	    });
+		
+	}
     
     @FXML
     public void loadContents(ActionEvent actionEvent) throws IOException {
@@ -162,24 +176,6 @@ import model.Clock;
         	 
          }
     }
-    
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void initialize(URL location, ResourceBundle resources) {
-		
-    	userInfo.setPickOnBounds(true);
-		
-		userInfo.setOnMouseClicked(new EventHandler() {
-	       
-			@Override
-			public void handle(Event event) {
-				
-				paneOverview.setVisible(true);
-				paneContents.setVisible(false);
-				
-			}
-	    });
-		
-	}
     
     public void sendAlert(String title, String text) {
 		

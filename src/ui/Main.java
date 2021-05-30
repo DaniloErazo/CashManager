@@ -42,8 +42,6 @@ public class Main extends Application {
 		
 		primaryStage.setResizable(false);
 		
-		mainGUI.initialize();
-		
 		Parent root = fxmlLoader.load();
 		
 		Scene scene = new Scene(root);
