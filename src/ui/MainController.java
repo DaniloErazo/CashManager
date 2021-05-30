@@ -2,7 +2,6 @@ package ui;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,8 +14,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import model.Clock;
 
 public class MainController{
+	
 	
 	
 	//------------------------------- MainPage.fxml ---------------------------------
@@ -79,6 +80,15 @@ public class MainController{
 
     @FXML
     private TableColumn<?, ?> typeTc;
+    
+    @FXML
+    private Label time;
+    
+    @FXML
+    public void initialize() {
+    	Clock clock = new Clock(time);
+    	clock.start();
+    }
     
     @FXML
     public void loadContents(ActionEvent actionEvent) throws IOException {
@@ -179,8 +189,7 @@ public class MainController{
     
   //-----------------------------------------------------------------------------------
     
-    
-    
+
   //---------------------------GraphicAnalysis.fxml -----------------------------------
     
     @FXML

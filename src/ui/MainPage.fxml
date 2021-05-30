@@ -15,10 +15,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="576.0" prefWidth="258.0" style="-fx-background-color: #2A9D8F;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <BorderPane prefHeight="31.0" prefWidth="258.0">
+               <bottom>
+                  <Label fx:id="time" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Britannic Bold" size="17.0" />
+                     </font>
+                  </Label>
+               </bottom>
+            </BorderPane>
             <Button fx:id="userInfo" mnemonicParsing="false" onAction="#loadContents" style="-fx-background-color: #2A9D8F;">
                <VBox.margin>
                   <Insets top="30.0" />
