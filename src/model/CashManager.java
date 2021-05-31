@@ -9,6 +9,7 @@ public class CashManager {
 	private ArrayList<Debt> debts;
 	private ArrayList<Saving> savings;
 	private ArrayList<Category> categorySpend;
+	private Movement root;
 	
 	
 	public CashManager() {
@@ -121,5 +122,39 @@ public class CashManager {
 	public void setCategorySpend(ArrayList<Category> categorySpend) {
 		this.categorySpend = categorySpend;
 	}
+
+	//Methods to manage the binary search tree--------------------------------------------------
+		public void addMovement(Movement newMovement) {
+			if (root == null) {
+				root = newMovement;
+			}
+			else {
+				addMovement(root, newMovement);
+			}
+		}
+		
+	private void addMovement(Movement currentMovement, Movement newMovement) {
+		int i = currentMovement.getDate().compareTo(newMovement.getDate());
+		if (i == -1 || i == 0) {
+				
+			if (currentMovement.getLeft() == null) {
+				currentMovement.setLeft(newMovement);
+			}
+			else {
+				addMovement(currentMovement.getLeft(), newMovement);
+			}
+		}
+		else {
+				
+			if (currentMovement.getRight() == null) {
+				currentMovement.setRight(newMovement);
+			}
+			else {
+				addMovement(currentMovement.getRight(), newMovement);
+			}
+		}
+	}
+		
+	//----------------------------------------------------------------------------------
 
 }

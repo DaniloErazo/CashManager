@@ -3,8 +3,13 @@ package ui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -16,6 +21,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
@@ -29,6 +35,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import model.CashManager;
 import model.Clock;
+import model.Movement;
+import model.MovementType;
 
 
 public class MainController implements Initializable{
@@ -184,6 +192,9 @@ public class MainController implements Initializable{
      	    
      	    paneOverview.setVisible(false);
      	    paneContents.setVisible(true);
+     	    setDate();
+     	    initializeComboBoxAccountOptions();
+     	    initializeComboBoxTypesMovement();
      	    paneContents.getChildren().clear();
      	    paneContents.setCenter(movementScreen);
          }
@@ -205,20 +216,64 @@ public class MainController implements Initializable{
   //---------------------------MovementPage.fxml --------------------------------------
     
     @FXML
+    private ComboBox<String> accountOptions;
+
+    @FXML
     private TextField amountCashTxt;
 
     @FXML
     private TextField movementDescTxt;
 
     @FXML
-    private SplitMenuButton typesMovementSplit;
+    private ComboBox<String> typesMovement;
 
     @FXML
-    private SplitMenuButton categoriesMovementSplit;
+    private ComboBox<String> categoriesMovement;
 
     @FXML
-    public void addMovement(ActionEvent event) {
+    private TextField date;
+    
+    private Calendar calendar;
 
+    @FXML
+    void addMovement(ActionEvent event) {
+    	String account = accountOptions.getSelectionModel().getSelectedItem();
+    	double amount = Double.parseDouble(amountCashTxt.getText());
+    	String category = categoriesMovement.getSelectionModel().getSelectedItem();
+    	String dateStr = date.getText();
+    	String description = movementDescTxt.getText();
+    	MovementType type = MovementType.values()[typesMovement.getSelectionModel().getSelectedIndex()];
+    	Movement movement = new Movement(account, amount, dateStr, description, type, category);
+    	cashManager.addMovement(movement);
+    }
+
+    @FXML
+    void removeMovement(ActionEvent event) {
+
+    }
+    
+    public void setDate() {
+    	calendar = Calendar.getInstance(); //It brings the system time and date as a Calendar Object
+    	 String timeStr = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(calendar.getTime());//.getTime() returns a Date object that represents this Calendar's time value
+    	 date.setText(timeStr);
+    }
+    
+    public void initializeComboBoxAccountOptions() {
+    	ObservableList<String> accounts = null;
+     	for (int i = 0; i < cashManager.getCreditAccounts().size(); i++) {
+     		accounts = FXCollections.observableArrayList(cashManager.getCreditAccounts().get(i).getName());
+     	}
+     	accountOptions.setItems(accounts);
+    }
+    
+    public void initializeComboBoxTypesMovement() {
+    	ObservableList<String> types = FXCollections.observableArrayList(MovementType.values()[0].name(),MovementType.values()[1].name(),
+    																	 MovementType.values()[2].name(),MovementType.values()[3].name());
+        typesMovement.setItems(types);
+    }
+    
+    public void initializeComboBoxCategoriesMovement() {
+    	
     }
     
     
