@@ -29,7 +29,10 @@ they spend the money. In addition to this, there's a graphic analysis of the dat
 ### Screenshots
 
 ![Main view](https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/MainPage.png)
-![Accounts](https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/AccountPresentation.png)
+![Accounts](https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/CreditAccount.PNG)
+![Accounts](https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/SavingAccount.PNG)
+![Accounts](https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/Savings.PNG)
+![Accounts](https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/Debts.PNG)
 ![Movement](https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/CreateMovement.png)
 ![SingleAccount](https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/CreateAccount.png)
 <img src="https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/DataAnalysis.png" width="800" height="400">
