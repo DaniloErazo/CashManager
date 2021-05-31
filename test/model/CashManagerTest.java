@@ -23,6 +23,13 @@ class CashManagerTest {
 		
 	}
 	
+	public void setupScenary3() { //Already exist a movement
+		cashManager = new CashManager();
+		Movement movement = new Movement("Nequi", 12000, "2021/05/30 22:40:15", "Compre unas luces led", MovementType.SPEND, "Gustos");
+		cashManager.addMovement(movement);
+		
+	}
+	
 	@Test
 	public void createSavingAccountTest() {
 		setupScenary1();
@@ -110,6 +117,35 @@ class CashManagerTest {
 		
 	}
 	
+	@Test
+	public void addMovement() {
+		setupScenary1();
+		
+		Movement movement = new Movement("Nequi", 12000, "2021/05/30 22:40:15", "Compre unas luces led", MovementType.SPEND, "Gustos");
+		cashManager.addMovement(movement);
+		
+		assertEquals("Nequi", cashManager.getRoot().getAccount());
+		assertEquals(12000, cashManager.getRoot().getAmount());
+		assertEquals("2021/05/30 22:40:15", cashManager.getRoot().getDate());
+		assertEquals("Compre unas luces led", cashManager.getRoot().getDescription());
+		assertEquals(MovementType.SPEND, cashManager.getRoot().getType());
+		assertEquals("Gustos", cashManager.getRoot().getCategory());
+		
+	}
+	
+	@Test
+	public void addMovement2() {
+		setupScenary3();
+		
+		Movement movement = new Movement("Daviplata", 8000, "2021/05/29 22:40:15", "Prima navideña", MovementType.INCOME, "Prima");
+		cashManager.addMovement(movement);
 
+		assertEquals("Daviplata", cashManager.getRoot().getRight().getAccount());
+		assertEquals(8000, cashManager.getRoot().getRight().getAmount());
+		assertEquals("2021/05/29 22:40:15", cashManager.getRoot().getRight().getDate());
+		assertEquals("Prima navideña", cashManager.getRoot().getRight().getDescription());
+		assertEquals(MovementType.INCOME, cashManager.getRoot().getRight().getType());
+		assertEquals("Prima", cashManager.getRoot().getRight().getCategory());
+	}
 
 }

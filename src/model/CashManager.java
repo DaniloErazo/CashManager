@@ -123,7 +123,15 @@ public class CashManager {
 		this.categorySpend = categorySpend;
 	}
 
-	//Methods to manage the binary search tree--------------------------------------------------
+	public Movement getRoot() {
+		return root;
+	}
+
+	public void setRoot(Movement root) {
+		this.root = root;
+	}
+
+		//Methods to manage the binary search tree--------------------------------------------------
 		public void addMovement(Movement newMovement) {
 			if (root == null) {
 				root = newMovement;
