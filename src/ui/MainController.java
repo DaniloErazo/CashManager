@@ -71,8 +71,6 @@ public class MainController implements Initializable{
     @FXML
     private Button userInfo;
 
-    @FXML
-    private Button movementAccounts;
 
     @FXML
     private BorderPane paneOverview;
@@ -150,10 +148,30 @@ public class MainController implements Initializable{
          }
          
          if (actionEvent.getSource() == savingAccount) {
+        	 
+        	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SavingsPage.fxml"));
+      		fxmlLoader.setController(this);
+      		fxmlLoader.setResources(bundle);
+      	    Parent creditAccount = fxmlLoader.load();
+      	    	
+      	   paneOverview.setVisible(false);
+     	    paneContents.setVisible(true);
+     	    paneContents.getChildren().clear();
+     	    paneContents.setCenter(creditAccount);
              	         
          }
          
          if(actionEvent.getSource()==debtAccount){
+        	 
+        	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("DebtsPage.fxml"));
+       		fxmlLoader.setController(this);
+       		fxmlLoader.setResources(bundle);
+       	    Parent creditAccount = fxmlLoader.load();
+       	    	
+       	   paneOverview.setVisible(false);
+      	    paneContents.setVisible(true);
+      	    paneContents.getChildren().clear();
+      	    paneContents.setCenter(creditAccount);
              
          }
          
@@ -170,11 +188,6 @@ public class MainController implements Initializable{
      	    paneContents.setCenter(movementScreen);
          }
          
-         if(actionEvent.getSource()==movementAccounts){
-             
-        	 
-        	 
-         }
     }
     
     public void sendAlert(String title, String text) {

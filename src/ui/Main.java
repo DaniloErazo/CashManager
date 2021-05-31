@@ -46,7 +46,7 @@ public class Main extends Application {
 		
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("JavaFX Charts");
+		primaryStage.setTitle("Cash Manager");
 		primaryStage.show();
 		
 	}

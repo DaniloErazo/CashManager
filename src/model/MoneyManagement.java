@@ -9,7 +9,7 @@ public class MoneyManagement {
 	public MoneyManagement(String name, double max) {
 		
 		nameMoneyManagment=name;
-		max = maxAmount;
+		maxAmount = max;
 		
 	}
 	
