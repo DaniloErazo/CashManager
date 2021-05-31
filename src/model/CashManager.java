@@ -10,6 +10,7 @@ public class CashManager {
 	private ArrayList<Saving> savings;
 	private ArrayList<Category> categorySpend;
 	private Movement root;
+	private User user;
 	
 	
 	public CashManager() {
