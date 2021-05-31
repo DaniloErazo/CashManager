@@ -236,7 +236,7 @@ public class MainController implements Initializable{
     private Calendar calendar;
 
     @FXML
-    void addMovement(ActionEvent event) {
+    public void addMovement(ActionEvent event) {
     	String account = accountOptions.getSelectionModel().getSelectedItem();
     	double amount = Double.parseDouble(amountCashTxt.getText());
     	String category = categoriesMovement.getSelectionModel().getSelectedItem();
@@ -248,7 +248,7 @@ public class MainController implements Initializable{
     }
 
     @FXML
-    void removeMovement(ActionEvent event) {
+    public void removeMovement(ActionEvent event) {
 
     }
     
