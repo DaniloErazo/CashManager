@@ -44,7 +44,7 @@
                         <Font size="19.0" />
                      </font>
                   </Label>
-                  <SplitMenuButton mnemonicParsing="false" style="-fx-background-color: #2A9D8F;" text="%display.accounts" GridPane.columnIndex="1">
+                  <SplitMenuButton fx:id="displayCreditAccounts" mnemonicParsing="false" style="-fx-background-color: #2A9D8F;" text="%display.accounts" GridPane.columnIndex="1">
                     <items>
                       <MenuItem mnemonicParsing="false" text="Action 1" />
                       <MenuItem mnemonicParsing="false" text="Action 2" />

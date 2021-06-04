@@ -10,7 +10,7 @@ public class Movement {
 	private String category;
 //	private String code;
 //	private Movement nextIncome;
-//	private Movement nextSpend;
+	private Movement nextSpend;
 	private Movement right;
 	private Movement left;
 
@@ -112,6 +112,14 @@ public class Movement {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public Movement getNextSpend() {
+		return nextSpend;
+	}
+
+	public void setNextSpend(Movement nextSpend) {
+		this.nextSpend = nextSpend;
 	}
 
 }

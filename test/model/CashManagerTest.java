@@ -103,18 +103,14 @@ class CashManagerTest {
 		
 		setupScenary2();
 		
-		boolean normalAccount = cashManager.accountExist(0, "Bancolombia");
-		boolean creditAccount = cashManager.accountExist(1, "Davivienda");
-		boolean saving = cashManager.accountExist(2, "Apartamento");
-		boolean debt = cashManager.accountExist(3, "Zapatos");
-		boolean creditAccount2 = cashManager.accountExist(1, "Bancolombia");
+		Account normalAccount = cashManager.accountExist(0, "Bancolombia");
+		Account creditAccount = cashManager.accountExist(1, "Davivienda");
+
 		
-		assertEquals(true, normalAccount);
-		assertEquals(true, creditAccount);
-		assertEquals(true, saving);
-		assertEquals(true, debt);
-		assertEquals(false, creditAccount2);
+		assertEquals(normalAccount.getName(), "Bancolombia");
+		assertEquals(creditAccount.getName(), "Davivienda");
 		
+
 	}
 	
 	@Test

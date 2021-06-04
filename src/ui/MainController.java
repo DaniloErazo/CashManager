@@ -1,6 +1,8 @@
 package ui;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -33,10 +35,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Window;
+import model.Account;
 import model.CashManager;
 import model.Clock;
+import model.CreditAccount;
+import model.Debt;
+import model.MoneyManagement;
 import model.Movement;
 import model.MovementType;
+import model.Saving;
+import model.SavingAccount;
 
 
 public class MainController implements Initializable{
@@ -46,6 +56,9 @@ public class MainController implements Initializable{
 	
 	ResourceBundle bundle;
 	private final CashManager cashManager;
+	private Account actualAccount;
+	private MoneyManagement accountActual;
+	
 	public MainController(ResourceBundle resource, CashManager ppal) {
 		bundle=resource;
 		cashManager = ppal;
@@ -135,7 +148,7 @@ public class MainController implements Initializable{
     		fxmlLoader.setController(this);
     		fxmlLoader.setResources(bundle);
     	    Parent normalAccount = fxmlLoader.load();
-    	    
+    	    loadSavingAccounts();
      	    paneContents.toFront();
      	    paneContents.getChildren().clear();
      	    paneContents.setCenter(normalAccount);
@@ -147,7 +160,7 @@ public class MainController implements Initializable{
      		fxmlLoader.setController(this);
      		fxmlLoader.setResources(bundle);
      	    Parent creditAccount = fxmlLoader.load();
-     	    	
+     	    loadCreditAccounts();
      	   paneOverview.setVisible(false);
     	    paneContents.setVisible(true);
     	    paneContents.getChildren().clear();
@@ -161,8 +174,8 @@ public class MainController implements Initializable{
       		fxmlLoader.setController(this);
       		fxmlLoader.setResources(bundle);
       	    Parent creditAccount = fxmlLoader.load();
-      	    	
-      	   paneOverview.setVisible(false);
+      	    loadSavings();
+      	    paneOverview.setVisible(false);
      	    paneContents.setVisible(true);
      	    paneContents.getChildren().clear();
      	    paneContents.setCenter(creditAccount);
@@ -175,7 +188,7 @@ public class MainController implements Initializable{
        		fxmlLoader.setController(this);
        		fxmlLoader.setResources(bundle);
        	    Parent creditAccount = fxmlLoader.load();
-       	    	
+       	    loadDebts();
        	   paneOverview.setVisible(false);
       	    paneContents.setVisible(true);
       	    paneContents.getChildren().clear();
@@ -283,6 +296,19 @@ public class MainController implements Initializable{
   //---------------------------AccountPage.fxml -----------------------------------
     
     @FXML
+    private SplitMenuButton displaySavingAccount;
+    @FXML
+    private SplitMenuButton displayCreditAccounts;
+    @FXML
+    private SplitMenuButton displayDebts;
+    
+    @FXML
+    private SplitMenuButton displaySavings;
+    
+    @FXML
+    private Button movementSavingAcc;
+    
+    @FXML
     public void openGraphicAnalysis(ActionEvent event) throws IOException {
     	
     	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GraphicAnalysis.fxml"));
@@ -307,6 +333,90 @@ public class MainController implements Initializable{
  	    paneContents.setCenter(createAccount);
     	
 
+    }
+    
+    public void loadSavingAccounts() {
+    	ArrayList<SavingAccount> accounts = cashManager.getSavingAccounts();
+    	for (int i = 0; i < accounts.size(); i++) {
+			MenuItem typeItem = new MenuItem(accounts.get(i).getName());
+			
+			typeItem.addEventHandler(ActionEvent.ACTION, (e) -> {
+		        displaySavingAccount.setText(typeItem.getText());
+		        actualAccount = cashManager.accountExist(0, typeItem.getText());
+		    });
+			
+			displaySavingAccount.getItems().add(typeItem);
+		}
+    	
+    }
+    
+    public void loadCreditAccounts() {
+    	ArrayList<CreditAccount> accounts = cashManager.getCreditAccounts();
+    	for (int i = 0; i < accounts.size(); i++) {
+			MenuItem typeItem = new MenuItem(accounts.get(i).getName());
+			
+			typeItem.addEventHandler(ActionEvent.ACTION, (e) -> {
+		        displayCreditAccounts.setText(typeItem.getText());
+		        actualAccount = cashManager.accountExist(1, typeItem.getText());
+		    });
+			
+			displayCreditAccounts.getItems().add(typeItem);
+		}
+    	
+    }
+    
+    public void loadDebts() {
+    	ArrayList<Debt> accounts = cashManager.getDebts();
+    	for (int i = 0; i < accounts.size(); i++) {
+			MenuItem typeItem = new MenuItem(accounts.get(i).getNameMoneyManagment());
+			
+			typeItem.addEventHandler(ActionEvent.ACTION, (e) -> {
+		        displayDebts.setText(typeItem.getText());
+		        accountActual = cashManager.accountExistM(3, typeItem.getText());
+		    });
+			
+			displayDebts.getItems().add(typeItem);
+		}
+    	
+    }
+    
+    public void loadSavings() {
+    	ArrayList<Saving> accounts = cashManager.getSavings();
+    	for (int i = 0; i < accounts.size(); i++) {
+			MenuItem typeItem = new MenuItem(accounts.get(i).getNameMoneyManagment());
+			
+			typeItem.addEventHandler(ActionEvent.ACTION, (e) -> {
+		        displaySavings.setText(typeItem.getText());
+		        accountActual = cashManager.accountExistM(2, typeItem.getText());
+		    });
+			
+			displaySavings.getItems().add(typeItem);
+		}
+    	
+    }
+    
+    public void exportMovements(ActionEvent event) {
+    	DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle(bundle.getString("select.export.path"));
+        File defaultDirectory = new File("c:/");
+        chooser.setInitialDirectory(defaultDirectory);
+        Window primaryStage = null;
+		File selectedDirectory = chooser.showDialog(primaryStage);
+		
+		if(event.getSource() == movementSavingAcc) {
+			try {
+				actualAccount.exportData(selectedDirectory);
+				sendAlert(bundle.getString("success.export.file"), bundle.getString("export.success"));
+			} catch (FileNotFoundException e) {
+				sendAlert(bundle.getString("error"), bundle.getString("export.failed"));
+				e.printStackTrace();
+			}
+		}
+		
+		
+         
+		
+		
     }
     
   //-----------------------------------------------------------------------------------
@@ -368,7 +478,7 @@ public class MainController implements Initializable{
     				
         		}else {
         			
-        			if(cashManager.accountExist(0, name)) {
+        			if(cashManager.accountExist(0, name)!=null) {
         				
         				sendAlert(bundle.getString("register.problem"), bundle.getString("name.repeated.account"));
         				
@@ -401,7 +511,7 @@ public class MainController implements Initializable{
 					sendAlert(bundle.getString("register.problem"), bundle.getString("name.missing"));
         		}else {
         			
-        			if(cashManager.accountExist(1, name)) {
+        			if(cashManager.accountExist(1, name)!=null) {
         				
         				sendAlert(bundle.getString("register.problem"), bundle.getString("name.repeated.account"));
         				
@@ -436,7 +546,7 @@ public class MainController implements Initializable{
 					sendAlert(bundle.getString("register.problem"), bundle.getString("name.missing"));
         		}else {
         			
-        			if(cashManager.accountExist(3, name)) {
+        			if(cashManager.accountExistM(3, name)!=null) {
         				
         				sendAlert(bundle.getString("register.problem"), bundle.getString("name.repeated.account"));
         				
@@ -466,7 +576,7 @@ public class MainController implements Initializable{
 				sendAlert(bundle.getString("register.problem"), bundle.getString("name.missing"));
     		}else {
     			
-    			if(cashManager.accountExist(2, name)) {
+    			if(cashManager.accountExistM(2, name)!=null) {
     				
     				sendAlert(bundle.getString("register.problem"), bundle.getString("name.repeated.account"));
     				
@@ -618,6 +728,14 @@ public class MainController implements Initializable{
     	}
     	return data;
     }
+
+	public Account getActualAccount() {
+		return actualAccount;
+	}
+
+	public void setActualAccount(Account actualAccount) {
+		this.actualAccount = actualAccount;
+	}
 
   //-----------------------------------------------------------------------------------
 

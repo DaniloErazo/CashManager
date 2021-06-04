@@ -1,5 +1,7 @@
 package model;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class CashManager {
@@ -45,44 +47,64 @@ public class CashManager {
 	 * 0 for saving account, 1 for credit, 2 for saving, 3 for debt
 	 *
 	 */
-	public boolean accountExist(int type, String name) {
-		boolean exist = false;
+	public Account accountExist(int type, String name) {
+
+		Account someaccount = null;
 		switch (type) {
 		case 0:
 			for (int i = 0; i <savingAccounts.size(); i++) {
 				if(savingAccounts.get(i).getName().equals(name)) {
-					exist=true;
+
+					someaccount = savingAccounts.get(i);
 				}
 			}
 			break;
 		case 1:
 			for (int i = 0; i <creditAccounts.size(); i++) {
 				if(creditAccounts.get(i).getName().equals(name)) {
-					exist=true;
+		
+					someaccount=creditAccounts.get(i);
 				}
 			}
 			break;
+
+		default:
+			break;
+		}
+		
+		
+		return someaccount;
+	}
+	
+	public MoneyManagement accountExistM(int type, String name) {
+		MoneyManagement someManagement = null;
+		
+		switch (type) {
 		case 2:
 			for (int i = 0; i <savings.size(); i++) {
 				if(savings.get(i).getNameMoneyManagment().equals(name)) {
-					exist=true;
+					
+					someManagement= savings.get(i);
 				}
 			}
 			break;
 		case 3:
 			for (int i = 0; i <debts.size(); i++) {
 				if(debts.get(i).getNameMoneyManagment().equals(name)) {
-					exist=true;
+					someManagement = debts.get(i);
 				}
 			}
+			
 			break;
 		default:
 			break;
 		}
 		
-		
-		return exist;
+		return someManagement;
 	}
+	
+	
+	
 
 	public ArrayList<CreditAccount> getCreditAccounts() {
 		return creditAccounts;
