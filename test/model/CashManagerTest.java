@@ -124,12 +124,12 @@ class CashManagerTest {
 		Movement movement = new Movement("Nequi", 12000, "2021/05/30 22:40:15", "Compre unas luces led", MovementType.SPEND, "Gustos");
 		cashManager.addMovement(movement);
 		
-		assertEquals("Nequi", cashManager.getRoot().getAccount());
-		assertEquals(12000, cashManager.getRoot().getAmount());
-		assertEquals("2021/05/30 22:40:15", cashManager.getRoot().getDate());
-		assertEquals("Compre unas luces led", cashManager.getRoot().getDescription());
-		assertEquals(MovementType.SPEND, cashManager.getRoot().getType());
-		assertEquals("Gustos", cashManager.getRoot().getCategory());
+		assertEquals("Nequi", cashManager.getRootMovements().getAccount());
+		assertEquals(12000, cashManager.getRootMovements().getAmount());
+		assertEquals("2021/05/30 22:40:15", cashManager.getRootMovements().getDate());
+		assertEquals("Compre unas luces led", cashManager.getRootMovements().getDescription());
+		assertEquals(MovementType.SPEND, cashManager.getRootMovements().getType());
+		assertEquals("Gustos", cashManager.getRootMovements().getCategory());
 		
 	}
 	
@@ -140,12 +140,12 @@ class CashManagerTest {
 		Movement movement = new Movement("Daviplata", 8000, "2021/05/29 22:40:15", "Prima navideña", MovementType.INCOME, "Prima");
 		cashManager.addMovement(movement);
 
-		assertEquals("Daviplata", cashManager.getRoot().getRight().getAccount());
-		assertEquals(8000, cashManager.getRoot().getRight().getAmount());
-		assertEquals("2021/05/29 22:40:15", cashManager.getRoot().getRight().getDate());
-		assertEquals("Prima navideña", cashManager.getRoot().getRight().getDescription());
-		assertEquals(MovementType.INCOME, cashManager.getRoot().getRight().getType());
-		assertEquals("Prima", cashManager.getRoot().getRight().getCategory());
+		assertEquals("Daviplata", cashManager.getRootMovements().getLeft().getAccount());
+		assertEquals(8000, cashManager.getRootMovements().getLeft().getAmount());
+		assertEquals("2021/05/29 22:40:15", cashManager.getRootMovements().getLeft().getDate());
+		assertEquals("Prima navideña", cashManager.getRootMovements().getLeft().getDescription());
+		assertEquals(MovementType.INCOME, cashManager.getRootMovements().getLeft().getType());
+		assertEquals("Prima", cashManager.getRootMovements().getLeft().getCategory());
 	}
 
 }

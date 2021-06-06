@@ -6,6 +6,8 @@ public class SavingAccount extends Account{
 	private double availableMoney;
 	private Movement firstIncome;
 	
+	public SavingAccount() {}
+	
 	public SavingAccount(String name, double money) {
 		super(name);
 		

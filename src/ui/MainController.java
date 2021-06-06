@@ -1,13 +1,12 @@
 package ui;
 
-
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,30 +26,30 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import model.AccountType;
 import model.CashManager;
 import model.Clock;
+import model.CreditAccount;
+import model.Debt;
+import model.Import;
 import model.Movement;
 import model.MovementType;
+import model.Saving;
+import model.SavingAccount;
 
 
 public class MainController implements Initializable{
 	
 
 	//------------------------------- MainPage.fxml ---------------------------------
-	
-	ResourceBundle bundle;
-	private final CashManager cashManager;
-	public MainController(ResourceBundle resource, CashManager ppal) {
-		bundle=resource;
-		cashManager = ppal;
-		
-	}
 	
 	@FXML
     private Label totalCash;
@@ -65,10 +64,10 @@ public class MainController implements Initializable{
     private Button normalAccount;
 
     @FXML
-    private Button creditAccount;
+    private Button creditAccountBtn;
 
     @FXML
-    private Button savingAccount;
+    private Button savingAccountBtn;
 
     @FXML
     private Button debtAccount;
@@ -79,7 +78,6 @@ public class MainController implements Initializable{
     @FXML
     private Button userInfo;
 
-
     @FXML
     private BorderPane paneOverview;
     
@@ -87,31 +85,47 @@ public class MainController implements Initializable{
     private BorderPane paneContents;
 
     @FXML
-    private TableView<?> lastMovementsTv;
+    private TableView<Movement> lastMovementsTv;
 
     @FXML
-    private TableColumn<?, ?> movementTc;
+    private TableColumn<Movement, String> typeTc;
+    
+    @FXML
+    private TableColumn<Movement, String> amountTc;
 
     @FXML
-    private TableColumn<?, ?> amountTc;
+    private TableColumn<Movement, String> dateTc;
 
     @FXML
-    private TableColumn<?, ?> dateTc;
-
-    @FXML
-    private TableColumn<?, ?> descriptionTc;
-
-    @FXML
-    private TableColumn<?, ?> typeTc;
+    private TableColumn<Movement, String> descriptionTc;  
     
     @FXML
     private Label time;
+    
+	ResourceBundle bundle;
+	
+	private final CashManager cashManager;
+	private final CreditAccount creditAccount;
+	private final SavingAccount savingAccount;
+	private final Saving saving;
+	private final Debt debt;
+	
+	
+	public MainController(ResourceBundle resource, CashManager ppal, CreditAccount creditAccount, SavingAccount savingAccount, Saving saving, Debt debt) {
+		bundle = resource;
+		cashManager = ppal;
+		this.creditAccount = creditAccount;
+		this.savingAccount = savingAccount;
+		this.saving = saving;
+		this.debt = debt;
+	}
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	@FXML
     public void initialize(URL location, ResourceBundle resources) {
     	Clock clock = new Clock(time);
     	clock.start();
+    	
     	userInfo.setPickOnBounds(true);
 		
 		userInfo.setOnMouseClicked(new EventHandler() {
@@ -124,7 +138,7 @@ public class MainController implements Initializable{
 				
 			}
 	    });
-		
+
 	}
     
     @FXML
@@ -135,34 +149,34 @@ public class MainController implements Initializable{
     		fxmlLoader.setController(this);
     		fxmlLoader.setResources(bundle);
     	    Parent normalAccount = fxmlLoader.load();
-    	    
+    
      	    paneContents.toFront();
      	    paneContents.getChildren().clear();
      	    paneContents.setCenter(normalAccount);
          }
     	 
-         if (actionEvent.getSource() == creditAccount) {
+         if (actionEvent.getSource() == creditAccountBtn) {
         	 
         	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CreditPage.fxml"));
      		fxmlLoader.setController(this);
      		fxmlLoader.setResources(bundle);
      	    Parent creditAccount = fxmlLoader.load();
      	    	
-     	   paneOverview.setVisible(false);
+     	    paneOverview.setVisible(false);
     	    paneContents.setVisible(true);
     	    paneContents.getChildren().clear();
     	    paneContents.setCenter(creditAccount);
            
          }
          
-         if (actionEvent.getSource() == savingAccount) {
+         if (actionEvent.getSource() == savingAccountBtn) {
         	 
         	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SavingsPage.fxml"));
       		fxmlLoader.setController(this);
       		fxmlLoader.setResources(bundle);
       	    Parent creditAccount = fxmlLoader.load();
       	    	
-      	   paneOverview.setVisible(false);
+      	    paneOverview.setVisible(false);
      	    paneContents.setVisible(true);
      	    paneContents.getChildren().clear();
      	    paneContents.setCenter(creditAccount);
@@ -176,7 +190,7 @@ public class MainController implements Initializable{
        		fxmlLoader.setResources(bundle);
        	    Parent creditAccount = fxmlLoader.load();
        	    	
-       	   paneOverview.setVisible(false);
+       	    paneOverview.setVisible(false);
       	    paneContents.setVisible(true);
       	    paneContents.getChildren().clear();
       	    paneContents.setCenter(creditAccount);
@@ -193,6 +207,7 @@ public class MainController implements Initializable{
      	    paneOverview.setVisible(false);
      	    paneContents.setVisible(true);
      	    setDate();
+     	    initializeComboBoxTypesAccount();
      	    initializeComboBoxAccountOptions();
      	    initializeComboBoxTypesMovement();
      	    paneContents.getChildren().clear();
@@ -200,6 +215,17 @@ public class MainController implements Initializable{
          }
          
     }
+    
+//	private void initializeTableViewOfMovements() throws FileNotFoundException {
+//    	ObservableList<Movement> observableList;
+//    	observableList = FXCollections.observableArrayList();
+//    	
+//		lastMovementsTv.setItems(observableList);
+//		typeTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("account"));
+//		amountTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("amount"));
+//	    dateTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("date"));
+//		descriptionTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("description"));
+//	}
     
     public void sendAlert(String title, String text) {
 		
@@ -211,45 +237,108 @@ public class MainController implements Initializable{
     	
 	}
     
+    public void warningAlert(String title, String text) {
+		
+    	Alert alert = new Alert(AlertType.WARNING);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(text);
+		alert.showAndWait();
+    	
+	}
+    
+    
   //-----------------------------------------------------------------------------------
     
   //---------------------------MovementPage.fxml --------------------------------------
+    @FXML
+    private ComboBox<String> typesAccount;
     
     @FXML
-    private ComboBox<String> accountOptions;
+    private ComboBox<CreditAccount> accountOptions;
 
     @FXML
     private TextField amountCashTxt;
+    
+    @FXML
+    private TextField date;
 
     @FXML
-    private TextField movementDescTxt;
+    private TextArea movementDescTxt;
 
     @FXML
     private ComboBox<String> typesMovement;
 
     @FXML
     private ComboBox<String> categoriesMovement;
-
-    @FXML
-    private TextField date;
     
     private Calendar calendar;
 
     @FXML
     public void addMovement(ActionEvent event) {
-    	String account = accountOptions.getSelectionModel().getSelectedItem();
-    	double amount = Double.parseDouble(amountCashTxt.getText());
-    	String category = categoriesMovement.getSelectionModel().getSelectedItem();
-    	String dateStr = date.getText();
-    	String description = movementDescTxt.getText();
-    	MovementType type = MovementType.values()[typesMovement.getSelectionModel().getSelectedIndex()];
-    	Movement movement = new Movement(account, amount, dateStr, description, type, category);
-    	cashManager.addMovement(movement);
+    	if (typesAccount.getSelectionModel().getSelectedItem() == null && 
+    		accountOptions.getSelectionModel().getSelectedItem().getName() == null && 
+    		amountCashTxt.getText().isEmpty() || Double.parseDouble(amountCashTxt.getText()) == 0 && 
+    		typesMovement.getSelectionModel().getSelectedItem() == null &&
+    		categoriesMovement.getSelectionModel().getSelectedItem() == null) { //All blanks are empty
+    		
+    		warningAlert(bundle.getString("movement.addMovementTitle"),bundle.getString("movement.addMovementWarningMsg"));
+		}
+    	else if (typesAccount.getSelectionModel().getSelectedItem() == null) { //An account type has not been selected
+			warningAlert(bundle.getString("movement.typesAccountTitle"), bundle.getString("movement.typesAccountWarningMsg"));
+		}
+    	else if (accountOptions.getSelectionModel().getSelectedItem().getName() == null) { //An account has not been selected
+			warningAlert(bundle.getString("movement.accountTitle"), bundle.getString("movement.accountWarningMsg"));
+		}
+    	else if (amountCashTxt.getText() .isEmpty() || Double.parseDouble(amountCashTxt.getText()) == 0) { //The amount field is empty or it has as value zero
+    		warningAlert("movement.amountTitle", "movement.amountWarningMsg");
+		}
+    	else if (typesMovement.getSelectionModel().getSelectedItem() == null) { //A movement type has not been selected
+			warningAlert(bundle.getString("movement.typeTitle"), bundle.getString("movement.typeWarningMsg"));
+		}
+    	else if (categoriesMovement.getSelectionModel().getSelectedItem() == null) { //A movement category has not been selected
+    		warningAlert(bundle.getString("movement.categoryTitle"), bundle.getString("movement.categoryWarningMsg"));
+		}
+    	else {
+        	String accountType = typesAccount.getSelectionModel().getSelectedItem();//I will use this line to show only the account that corresponds with the type 
+        	String account = accountOptions.getSelectionModel().getSelectedItem().getName();
+            double amount = Double.parseDouble(amountCashTxt.getText());
+        	MovementType type = MovementType.values()[typesMovement.getSelectionModel().getSelectedIndex()];
+        	String category = categoriesMovement.getSelectionModel().getSelectedItem();
+        	String dateStr = date.getText();
+        	String description = movementDescTxt.getText();
+        	Movement movement;
+        	
+        	switch (typesAccount.getSelectionModel().getSelectedIndex()) {
+			case 0: //credit account
+				movement = new Movement(account, amount, dateStr, description, type, category);
+				creditAccount.addMovement(movement);
+				break;	
+			case 1: //saving account
+				movement = new Movement(account, amount, dateStr, description, type, category);
+				savingAccount.addMovement(movement);
+				break;
+			case 2: //saving 
+				movement = new Movement(account, amount, dateStr, description, type, category);
+				
+				break;
+			case 3: //debt
+				movement = new Movement(account, amount, dateStr, description, type, category);
+				
+				break;
+			default:
+				break;
+			}
+    
+        	movement = new Movement(account, amount, dateStr, description, type, category);
+        	cashManager.addMovement(movement);//The new movement is added in the "main" binary search tree too
+        	sendAlert(bundle.getString("movement.addMovementTitle"), bundle.getString("movement.addedSuccesfullyMsg"));
+		}
     }
 
     @FXML
     public void removeMovement(ActionEvent event) {
-
+    	
     }
     
     public void setDate() {
@@ -258,11 +347,14 @@ public class MainController implements Initializable{
     	 date.setText(timeStr);
     }
     
+    public void initializeComboBoxTypesAccount() {
+    	ObservableList<String> types = FXCollections.observableArrayList(AccountType.values()[0].name(),AccountType.values()[1].name(),
+    																	 AccountType.values()[2].name(),AccountType.values()[3].name());
+    	typesAccount.setItems(types);
+    }
+    
     public void initializeComboBoxAccountOptions() {
-    	ObservableList<String> accounts = null;
-     	for (int i = 0; i < cashManager.getCreditAccounts().size(); i++) {
-     		accounts = FXCollections.observableArrayList(cashManager.getCreditAccounts().get(i).getName());
-     	}
+    	ObservableList<CreditAccount> accounts = FXCollections.observableArrayList(cashManager.getCreditAccounts());
      	accountOptions.setItems(accounts);
     }
     
@@ -271,7 +363,7 @@ public class MainController implements Initializable{
     																	 MovementType.values()[2].name(),MovementType.values()[3].name());
         typesMovement.setItems(types);
     }
-    
+     
     public void initializeComboBoxCategoriesMovement() {
     	
     }
@@ -484,8 +576,8 @@ public class MainController implements Initializable{
     	
     }
 
-    @FXML
-    public void setAccountType(ActionEvent event) {
+   @FXML
+   public void setAccountType(ActionEvent event) {
     	
     	Label name = new Label(bundle.getString("name"));
     	name.setTextFill(Color.WHITE);
@@ -591,9 +683,9 @@ public class MainController implements Initializable{
 			
 		}
 
-    }
+   }
     
-    public Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+   public Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren())
             if (GridPane.getColumnIndex(node) != null
                     && GridPane.getColumnIndex(node) != null
@@ -601,9 +693,9 @@ public class MainController implements Initializable{
                     && GridPane.getColumnIndex(node) == col)
                 return node;
         return null;
-  }
+   }
     
-    public ArrayList<String> gatherPrices(GridPane table) {
+   public ArrayList<String> gatherPrices(GridPane table) {
     	
     	ArrayList<String> data = new ArrayList<String>();
     	if(createAccountGrid.getChildren().size()>0){ // that means it contains a table    
@@ -617,10 +709,25 @@ public class MainController implements Initializable{
     	    }
     	}
     	return data;
-    }
+   }
 
   //-----------------------------------------------------------------------------------
-
-	    
-
+    
+  //Imports----------------------------------------------------------------------------
+  @FXML
+  void importData(ActionEvent event) throws IOException {
+    	
+	  FileChooser fChooser = new FileChooser();
+	  fChooser.setTitle("Importar datos");
+	  File file = fChooser.showOpenDialog(paneOverview.getScene().getWindow());
+	  if (file != null) {
+		  Alert alert = new Alert(AlertType.INFORMATION);
+   	   	  alert.setTitle("Importar datos de clientes");
+   	      new Import(file.getAbsolutePath()).start();
+   	    	 alert.setContentText("Datos importados exitosamente");
+   	    	 alert.showAndWait();
+	  }
+  }
+  //-----------------------------------------------------------------------------------
+    
 }

@@ -11,8 +11,7 @@ public class Movement {
 //	private String code;
 //	private Movement nextIncome;
 //	private Movement nextSpend;
-	private Movement right;
-	private Movement left;
+	private Movement left, right;
 
 	public Movement(String account, double amount, String date, String description, MovementType type, String category) {
 		this.setAccount(account);
@@ -26,12 +25,12 @@ public class Movement {
 //		this.setNextSpend(nextSpend);
 	}
 
-	public MovementType getType() {
-		return type;
+	public String getAccount() {
+		return account;
 	}
 
-	public void setType(MovementType type) {
-		this.type = type;
+	public void setAccount(String account) {
+		this.account = account;
 	}
 
 	public double getAmount() {
@@ -58,29 +57,21 @@ public class Movement {
 		this.description = description;
 	}
 
-//	public String getCode() {
-//		return code;
-//	}
-//
-//	public void setCode(String code) {
-//		this.code = code;
-//	}
-//
-//	public Movement getNextIncome() {
-//		return nextIncome;
-//	}
-//
-//	public void setNextIncome(Movement nextIncome) {
-//		this.nextIncome = nextIncome;
-//	}
-//
-//	public Movement getNextSpend() {
-//		return nextSpend;
-//	}
-//
-//	public void setNextSpend(Movement nextSpend) {
-//		this.nextSpend = nextSpend;
-//	}
+	public MovementType getType() {
+		return type;
+	}
+
+	public void setType(MovementType type) {
+		this.type = type;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
 
 	public Movement getRight() {
 		return right;
@@ -96,22 +87,6 @@ public class Movement {
 
 	public void setLeft(Movement left) {
 		this.left = left;
-	}
-
-	public String getAccount() {
-		return account;
-	}
-
-	public void setAccount(String account) {
-		this.account = account;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
 	}
 
 }

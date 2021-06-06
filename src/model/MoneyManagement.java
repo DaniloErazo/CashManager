@@ -6,6 +6,8 @@ public class MoneyManagement {
 	private double maxAmount;
 	private Movement root;
 	
+	public MoneyManagement() {}
+	
 	public MoneyManagement(String name, double max) {
 		
 		nameMoneyManagment=name;
