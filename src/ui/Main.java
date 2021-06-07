@@ -9,35 +9,31 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.CashManager;
-import model.CreditAccount;
-import model.Debt;
-import model.Saving;
-import model.SavingAccount;
 
 public class Main extends Application {
 	
 	private static MainController mainGUI;
+	private static SecondaryController secondaryGUI;
 	private static CashManager ppal;
-	private static CreditAccount creditAccount;
-	private static SavingAccount savingAccount;
-	private static Saving saving;
-	private static Debt debt;
+
+	private boolean lock = false; 
 
 	public static void main(String[] args) {
 		Locale.setDefault(new Locale("es", "CO"));
 		
 		ppal = new CashManager();
-		creditAccount = new CreditAccount();
-		savingAccount = new SavingAccount();
-		saving = new Saving();
-		debt = new Debt();
 		
 		ResourceBundle bundle = ResourceBundle.getBundle(("ui.Messages"), Locale.getDefault());
 		mainGUI = new MainController(bundle, ppal); 
+		secondaryGUI = new SecondaryController(bundle);
 		
 		launch(args);
 		
 	}
+	
+//	public Main(boolean lock) {
+//		this.lock = lock;
+//	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -45,21 +41,33 @@ public class Main extends Application {
 		Locale.setDefault(new Locale("es", "CO"));
 		
 		ResourceBundle bundle = ResourceBundle.getBundle(("ui.Messages"), Locale.getDefault());
+		FXMLLoader	fxmlLoader = null;
 		
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MainPage.fxml"));
-		
-		fxmlLoader.setResources(bundle);
-		
-		fxmlLoader.setController(mainGUI);
-		
-		primaryStage.setResizable(false);
-		
-		Parent root = fxmlLoader.load();
-		
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Cash Manager");
-		primaryStage.show();
+		if(!lock) {
+			fxmlLoader = new FXMLLoader(getClass().getResource("MainPage.fxml"));
+			fxmlLoader.setResources(bundle);
+			
+			fxmlLoader.setController(mainGUI);
+			
+			primaryStage.setResizable(false);
+			
+			Parent root = fxmlLoader.load();
+			
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Cash Manager");
+			primaryStage.show();
+		}
+		else {
+			fxmlLoader = new FXMLLoader(getClass().getResource("LockPage.fxml"));
+			fxmlLoader.setResources(bundle);
+			fxmlLoader.setController(secondaryGUI);
+			Parent root = fxmlLoader.load();
+			Scene scene = new Scene(root);
+			primaryStage.setScene(scene);
+			primaryStage.setTitle("Cash Manager");
+			primaryStage.show();
+		}
 		
 	}
 

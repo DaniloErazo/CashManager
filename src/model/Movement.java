@@ -10,10 +10,9 @@ public class Movement {
 	private String category;
 //	private String code;
 //	private Movement nextIncome;
-
 	private Movement nextSpend;
-	private Movement right;
-	private Movement left;
+	private Movement left, right;
+	private Movement next, previous;
 
 
 
@@ -110,6 +109,20 @@ public class Movement {
 		return output;
 	}
 
+	public Movement getNext() {
+		return next;
+	}
 
+	public void setNext(Movement next) {
+		this.next = next;
+	}
+
+	public Movement getPrevious() {
+		return previous;
+	}
+
+	public void setPrevious(Movement previous) {
+		this.previous = previous;
+	}
 }
 

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1050.0" style="-fx-background-color: #02030A;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="576.0" prefWidth="258.0" style="-fx-background-color: #2A9D8F;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -52,7 +52,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
                <graphic>
-                  <ImageView fitHeight="31.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="37.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/exelent-card-icon-gallery-business-card-icon-11562916835ivf8n00mun-removebg-preview.png" />
                      </image>
@@ -67,7 +67,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
                <graphic>
-                  <ImageView fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="37.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/credit-card-2.png" />
                      </image>
@@ -82,9 +82,9 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
                <graphic>
-                  <ImageView fitHeight="38.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true">
                      <image>
-                        <Image url="@images/ffaa8618647670b17c75987cbc4cf050-removebg-preview.png" />
+                        <Image url="@images/money-saving-2409620-2022299.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -97,9 +97,9 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
                <graphic>
-                  <ImageView fitHeight="26.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="37.0" fitWidth="40.0" pickOnBounds="true">
                      <image>
-                        <Image url="@images/2577674-removebg-preview.png" />
+                        <Image url="@images/1086830.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -112,9 +112,33 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
                <graphic>
-                  <ImageView fitHeight="37.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="37.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/152360.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#importMovements" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: 264653;" text="%movements.import" textFill="#323232">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+               <graphic>
+                  <ImageView fitHeight="37.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/icons8-import-30.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#registerPassword" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: 264653;" text="%add.password" textFill="#323232">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+               <graphic>
+                  <ImageView fitHeight="37.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/klipartz.png" />
                      </image>
                   </ImageView>
                </graphic>

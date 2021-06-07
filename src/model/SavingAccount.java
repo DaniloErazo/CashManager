@@ -22,8 +22,6 @@ public class SavingAccount extends Account{
 		this.firstIncome = firstIncome;
 	}
 
-	
-
 	public double getAvailableMoney() {
 		return availableMoney;
 	}

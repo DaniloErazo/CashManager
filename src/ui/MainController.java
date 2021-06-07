@@ -35,22 +35,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
 import model.Account;
-
 import javafx.stage.FileChooser;
-import model.AccountType;
-
 import model.CashManager;
 import model.CreditAccount;
 import model.Debt;
-
 import model.MoneyManagement;
-
 import model.Import;
-
 import model.Movement;
 import model.MovementType;
 import model.Saving;
@@ -80,6 +73,10 @@ public class MainController implements Initializable{
 	public MainController(ResourceBundle resource, CashManager ppal) {
 		bundle = resource;
 		cashManager = ppal;
+		creditAccount = new CreditAccount();
+		savingAccount = new SavingAccount();
+		saving = new Saving();
+		debt = new Debt();
 	}
 	
 
@@ -237,12 +234,38 @@ public class MainController implements Initializable{
      	    paneContents.setVisible(true);
      	    setDate();
      	    initializeComboBoxTypesAccount();
-     	    initializeComboBoxAccountOptions();
      	    initializeComboBoxTypesMovement();
      	    paneContents.getChildren().clear();
      	    paneContents.setCenter(movementScreen);
          }
          
+    }
+    
+    @FXML
+    void importMovements(ActionEvent event) {    	
+    	FileChooser fChooser = new FileChooser();
+    	fChooser.setTitle("Importar datos");
+    	File file = fChooser.showOpenDialog(paneOverview.getScene().getWindow());
+    	if (file != null) {
+    		Alert alert = new Alert(AlertType.INFORMATION);
+    		alert.setTitle("Importar movimientos");
+    	   	new Import(file.getAbsolutePath()).start();
+    	   		alert.setContentText("Datos importados exitosamente");
+    	   		alert.showAndWait();
+    	}
+    }
+    
+    @FXML
+    void registerPassword(ActionEvent event) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PasswordPage.fxml"));
+ 		fxmlLoader.setController(this);
+ 		fxmlLoader.setResources(bundle);
+ 	    Parent passwordScreen = fxmlLoader.load();
+ 	    	
+ 	    paneOverview.setVisible(false);
+	    paneContents.setVisible(true);
+	    paneContents.getChildren().clear();
+	    paneContents.setCenter(passwordScreen);
     }
     
 //	private void initializeTableViewOfMovements() throws FileNotFoundException {
@@ -284,7 +307,7 @@ public class MainController implements Initializable{
     private ComboBox<String> typesAccount;
     
     @FXML
-    private ComboBox<CreditAccount> accountOptions;
+    private ComboBox<String> accountOptions;
 
     @FXML
     private TextField amountCashTxt;
@@ -306,8 +329,8 @@ public class MainController implements Initializable{
     @FXML
     public void addMovement(ActionEvent event) {
     	if (typesAccount.getSelectionModel().getSelectedItem() == null && 
-    		accountOptions.getSelectionModel().getSelectedItem().getName() == null && 
-    		amountCashTxt.getText().isEmpty() || Double.parseDouble(amountCashTxt.getText()) == 0 && 
+    		accountOptions.getSelectionModel().getSelectedItem() == null && 
+    		amountCashTxt.getText().isEmpty() && 
     		typesMovement.getSelectionModel().getSelectedItem() == null &&
     		categoriesMovement.getSelectionModel().getSelectedItem() == null) { //All blanks are empty
     		
@@ -316,7 +339,7 @@ public class MainController implements Initializable{
     	else if (typesAccount.getSelectionModel().getSelectedItem() == null) { //An account type has not been selected
 			warningAlert(bundle.getString("movement.typesAccountTitle"), bundle.getString("movement.typesAccountWarningMsg"));
 		}
-    	else if (accountOptions.getSelectionModel().getSelectedItem().getName() == null) { //An account has not been selected
+    	else if (accountOptions.getSelectionModel().getSelectedItem() == null) { //An account has not been selected
 			warningAlert(bundle.getString("movement.accountTitle"), bundle.getString("movement.accountWarningMsg"));
 		}
     	else if (amountCashTxt.getText() .isEmpty() || Double.parseDouble(amountCashTxt.getText()) == 0) { //The amount field is empty or it has as value zero
@@ -329,8 +352,7 @@ public class MainController implements Initializable{
     		warningAlert(bundle.getString("movement.categoryTitle"), bundle.getString("movement.categoryWarningMsg"));
 		}
     	else {
-        	String accountType = typesAccount.getSelectionModel().getSelectedItem();//I will use this line to show only the account that corresponds with the type 
-        	String account = accountOptions.getSelectionModel().getSelectedItem().getName();
+        	String account = accountOptions.getSelectionModel().getSelectedItem();
             double amount = Double.parseDouble(amountCashTxt.getText());
         	MovementType type = MovementType.values()[typesMovement.getSelectionModel().getSelectedIndex()];
         	String category = categoriesMovement.getSelectionModel().getSelectedItem();
@@ -339,21 +361,21 @@ public class MainController implements Initializable{
         	Movement movement;
         	
         	switch (typesAccount.getSelectionModel().getSelectedIndex()) {
-			case 0: //credit account
-				movement = new Movement(account, amount, dateStr, description, type, category);
-				creditAccount.addMovement(movement);
-				break;	
-			case 1: //saving account
+			case 0: //saving account
 				movement = new Movement(account, amount, dateStr, description, type, category);
 				savingAccount.addMovement(movement);
 				break;
+			case 1: //credit account
+				movement = new Movement(account, amount, dateStr, description, type, category);
+				creditAccount.addMovement(movement);
+				break;	
 			case 2: //saving 
 				movement = new Movement(account, amount, dateStr, description, type, category);
-				
+				saving.addMovement(movement);
 				break;
 			case 3: //debt
 				movement = new Movement(account, amount, dateStr, description, type, category);
-				
+				debt.addMovement(movement);
 				break;
 			default:
 				break;
@@ -363,6 +385,7 @@ public class MainController implements Initializable{
         	cashManager.addMovement(movement);//The new movement is added in the "main" binary search tree too
         	sendAlert(bundle.getString("movement.addMovementTitle"), bundle.getString("movement.addedSuccesfullyMsg"));
 		}
+
     }
 
     @FXML
@@ -377,15 +400,40 @@ public class MainController implements Initializable{
     }
     
     public void initializeComboBoxTypesAccount() {
-    	ObservableList<String> types = FXCollections.observableArrayList(AccountType.values()[0].name(),AccountType.values()[1].name(),
-    																	 AccountType.values()[2].name(),AccountType.values()[3].name());
+    	ObservableList<String> types = FXCollections.observableArrayList(bundle.getString("accountType.savingAccount"),bundle.getString("accountType.creditAccount"),
+    			                                                                          bundle.getString("accountType.saving"),bundle.getString("accountType.debt"));
     	typesAccount.setItems(types);
     }
     
-    public void initializeComboBoxAccountOptions() {
-    	ObservableList<CreditAccount> accounts = FXCollections.observableArrayList(cashManager.getCreditAccounts());
-     	accountOptions.setItems(accounts);
-    }
+    public void initializeComboBoxAccountOptions(int accountType) {
+    	ArrayList<String> accountNameList = new ArrayList<>();
+    	
+    	switch (accountType) {
+		case 0: 
+	    	for (int i = 0; i < cashManager.getSavingAccounts().size(); i++) {
+				accountNameList.add(i, cashManager.getSavingAccounts().get(i).getName());
+			}
+			break;
+		case 1:
+	    	for (int i = 0; i < cashManager.getCreditAccounts().size(); i++) {
+				accountNameList.add(i, cashManager.getCreditAccounts().get(i).getName());
+			}
+			break;
+		case 2: 
+	    	for (int i = 0; i < cashManager.getSavings().size(); i++) {
+				accountNameList.add(i, cashManager.getSavings().get(i).getNameMoneyManagment());
+			}
+			break;
+		case 3: 
+	    	for (int i = 0; i < cashManager.getDebts().size(); i++) {
+				accountNameList.add(i, cashManager.getDebts().get(i).getNameMoneyManagment());
+			}
+			break;
+    	}	
+    	
+	    ObservableList<String> accounts = FXCollections.observableArrayList(accountNameList);
+    	accountOptions.setItems(accounts);
+	}
     
     public void initializeComboBoxTypesMovement() {
     	ObservableList<String> types = FXCollections.observableArrayList(MovementType.values()[0].name(),MovementType.values()[1].name(),
@@ -875,22 +923,31 @@ public class MainController implements Initializable{
 	}
 
   //-----------------------------------------------------------------------------------
-    
-  //Imports----------------------------------------------------------------------------
+
+  //--------------------------PasswordPage.fxml----------------------------------------
   @FXML
-  public void importData(ActionEvent event) throws IOException {
-    	
-	  FileChooser fChooser = new FileChooser();
-	  fChooser.setTitle("Importar datos");
-	  File file = fChooser.showOpenDialog(paneOverview.getScene().getWindow());
-	  if (file != null) {
-		  Alert alert = new Alert(AlertType.INFORMATION);
-   	   	  alert.setTitle("Importar datos de clientes");
-   	      new Import(file.getAbsolutePath()).start();
-   	    	 alert.setContentText("Datos importados exitosamente");
-   	    	 alert.showAndWait();
+  private TextArea registerKeyQuestion;
+
+  @FXML
+  private TextField registerPassword;
+
+  @FXML
+  private TextField registerKeyAnswer;
+
+  @FXML
+  void savePassword(ActionEvent event) {
+	  if (registerPassword.getText().isEmpty()) {
+		  warningAlert(bundle.getString("password.registerTitle"), bundle.getString("password.registerWarningMsg"));
+	  }
+	  else if (registerKeyQuestion.getText().isEmpty()) {
+		  warningAlert(bundle.getString("password.keyQuestionTitle"), bundle.getString("password.keyQuestionWarningMsg"));
+	  }
+	  else if (registerKeyAnswer.getText().isEmpty()) {
+		  warningAlert(bundle.getString("password.answerKeyQuestionTitle"), bundle.getString("password.answerKeyQuestionWarningMsg"));
+	  }	
+	  else {
+		  sendAlert(bundle.getString("password.registerTitle"), bundle.getString("password.registeredSuccesfully"));
 	  }
   }
-  //-----------------------------------------------------------------------------------
-    
+  //----------------------------------------------------------------------------------------   
 }

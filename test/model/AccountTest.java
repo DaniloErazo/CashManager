@@ -1,8 +1,5 @@
 package model;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -16,13 +13,9 @@ class AccountTest {
 		
 		testAccount = new SavingAccount("Bancolombia", 400000);
 		
-
-		
 		Movement testMove = new Movement("Bancolombia", 30000, "////", "X somos chavos", MovementType.INCOME, "any");
 		
 		testAccount.addMovement(testMove);
-		
-		
 		
 	}
 	

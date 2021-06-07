@@ -10,7 +10,7 @@ public class Category {
 	public Category(String name, String type) {
 		
 		this.name=name;
-		this.type=type;
+		this.setType(type);
 		
 	}
 
@@ -36,6 +36,14 @@ public class Category {
 
 	public void setRootMovement(Category rootMovement) {
 		this.rootMovement = rootMovement;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

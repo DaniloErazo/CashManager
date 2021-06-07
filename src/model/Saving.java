@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Saving extends MoneyManagement {
 	
-	
 	private ArrayList<Movement> payments; //sorting
 	private int count; //abonos
  
@@ -26,6 +25,5 @@ public class Saving extends MoneyManagement {
 	public void setCount(int count) {
 		this.count = count;
 	}
-	
-	
+		
 }
