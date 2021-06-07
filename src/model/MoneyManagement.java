@@ -1,10 +1,16 @@
 package model;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 public class MoneyManagement {
 	
 	private String nameMoneyManagment;
 	private double maxAmount;
 	private Movement root;
+	
+	public MoneyManagement() {}
 	
 	public MoneyManagement(String name, double max) {
 		
@@ -30,6 +36,34 @@ public class MoneyManagement {
 	}
 	public void setRoot(Movement root) {
 		this.root = root;
+	}
+	
+	public void exportData(File filePath) throws FileNotFoundException {
+		PrintWriter pw = new PrintWriter(new File(filePath+"/output.csv"));
+
+		pw.println("Monto" + "," + "Categoría" + "," + "Fecha" + "," + "Descripción");
+		
+		
+		printExport(root, pw);
+		
+		pw.close();
+	}
+	
+	public void exportData(PrintWriter pw) {
+		printExport(root, pw);
+		
+		pw.close();
+	}
+		
+	public void printExport(Movement root, PrintWriter pw){
+	    if (root == null) {
+	    	
+	    }else {
+	    	printExport(root.getLeft(), pw);
+		    pw.println(root.exportMovement());
+		    printExport(root.getRight(), pw);
+	    }
+		        
 	}
 
 }

@@ -4,7 +4,15 @@ public class Category {
 
 	private String name;
 	private int count;
+	private String type;
 	private Category rootMovement;
+	
+	public Category(String name, String type) {
+		
+		this.name=name;
+		this.type=type;
+		
+	}
 
 	public int getCount() {
 		return count;

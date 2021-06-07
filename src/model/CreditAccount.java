@@ -6,6 +6,8 @@ public class CreditAccount extends Account implements Fee{
 	private double monthFee;
 	private double maxQuota;
 	
+	public CreditAccount() {}
+	
 	public CreditAccount(String name, double interest, double maxQuota) {
 		super(name);
 		this.interest = interest;

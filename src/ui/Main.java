@@ -9,19 +9,31 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.CashManager;
+import model.CreditAccount;
+import model.Debt;
+import model.Saving;
+import model.SavingAccount;
 
 public class Main extends Application {
 	
 	private static MainController mainGUI;
 	private static CashManager ppal;
+	private static CreditAccount creditAccount;
+	private static SavingAccount savingAccount;
+	private static Saving saving;
+	private static Debt debt;
 
 	public static void main(String[] args) {
 		Locale.setDefault(new Locale("es", "CO"));
 		
 		ppal = new CashManager();
+		creditAccount = new CreditAccount();
+		savingAccount = new SavingAccount();
+		saving = new Saving();
+		debt = new Debt();
 		
 		ResourceBundle bundle = ResourceBundle.getBundle(("ui.Messages"), Locale.getDefault());
-		mainGUI= new MainController(bundle, ppal); 
+		mainGUI = new MainController(bundle, ppal); 
 		
 		launch(args);
 		

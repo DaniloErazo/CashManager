@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -11,9 +12,8 @@ public class CashManager {
 	private ArrayList<Debt> debts;
 	private ArrayList<Saving> savings;
 	private ArrayList<Category> categorySpend;
-	private Movement root;
 	private User user;
-	
+	private Movement rootMovements; //This binary search three save the movements in general, They will show to the user in the main page
 	
 	public CashManager() {
 		creditAccounts = new ArrayList<>();
@@ -23,6 +23,8 @@ public class CashManager {
 		categorySpend = new ArrayList<>();
 	}
 	
+	
+	//-------------------- Create accounts ----------------------------------
 	public void createSavingAccount(String name, double money) {
 		SavingAccount newAccount = new SavingAccount(name, money);
 		savingAccounts.add(newAccount);
@@ -103,6 +105,60 @@ public class CashManager {
 		return someManagement;
 	}
 	
+	//-------------------------------------------------------------
+	
+	//----------------------- export all the data -----------------
+	
+	public void exportAllData(PrintWriter filePath) throws FileNotFoundException {
+		//PrintWriter pw = new PrintWriter(new File(filePath+"/output.csv"));
+
+		Thread saving = new Thread() {
+			@Override
+			public void run()	//Anonymous class overriding run() method of Thread class
+			{
+				for (int i = 0; i < savingAccounts.size(); i++) {
+					savingAccounts.get(0).exportData(filePath);
+				}
+			}
+		};
+		saving.start();
+		Thread credit = new Thread() {
+			@Override
+			public void run()	//Anonymous class overriding run() method of Thread class
+			{
+				for (int i = 0; i < creditAccounts.size(); i++) {
+					creditAccounts.get(0).exportData(filePath);
+				}
+			}
+		};
+		credit.start();
+		
+		Thread debt = new Thread() {
+			@Override
+			public void run()	//Anonymous class overriding run() method of Thread class
+			{
+				for (int i = 0; i < debts.size(); i++) {
+					debts.get(0).exportData(filePath);
+				}
+			}
+		};
+		debt.start();
+		
+		Thread savings = new Thread() {
+			@Override
+			public void run()	//Anonymous class overriding run() method of Thread class
+			{
+				for (int i = 0; i < CashManager.this.savings.size(); i++) {
+					CashManager.this.savings.get(0).exportData(filePath);
+				}
+			}
+		};
+		savings.start();
+
+	}
+	
+	
+	//-------------------------------------------------------------
 	
 	
 
@@ -146,46 +202,68 @@ public class CashManager {
 		this.categorySpend = categorySpend;
 	}
 
-	public Movement getRoot() {
-		return root;
+	public User getUser() {
+		return user;
 	}
 
-	public void setRoot(Movement root) {
-		this.root = root;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-		//Methods to manage the binary search tree--------------------------------------------------
-		public void addMovement(Movement newMovement) {
-			if (root == null) {
-				root = newMovement;
-			}
-			else {
-				addMovement(root, newMovement);
-			}
+	public Movement getRootMovements() {
+		return rootMovements;
+	}
+
+	public void setRootMovements(Movement rootLastMovements) {
+		this.rootMovements = rootLastMovements;
+	}
+	
+	// Methods movements in the binary search tree---------------------------
+	public void addMovement(Movement newMovement) {
+		if (rootMovements == null) {
+			rootMovements = newMovement;
+		} 
+		else {
+			addMovement(rootMovements, newMovement);
 		}
-		
+	}
+
 	private void addMovement(Movement currentMovement, Movement newMovement) {
-		int i = currentMovement.getDate().compareTo(newMovement.getDate());
-		if (i == -1 || i == 0) {
-				
+		int i = newMovement.getDate().compareTo(currentMovement.getDate());
+		if (i == -1 || i == 0) { 
 			if (currentMovement.getLeft() == null) {
 				currentMovement.setLeft(newMovement);
 			}
 			else {
 				addMovement(currentMovement.getLeft(), newMovement);
 			}
-		}
+		} 
 		else {
-				
 			if (currentMovement.getRight() == null) {
 				currentMovement.setRight(newMovement);
-			}
+			} 
 			else {
 				addMovement(currentMovement.getRight(), newMovement);
 			}
 		}
 	}
-		
-	//----------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------
 
+	// Methods to traverse the tree turning it into ArrayList----------------------------
+	public ArrayList<Movement> inOrden() {
+		ArrayList<Movement> movementsArrayList = new ArrayList<Movement>();
+		inOrden2(rootMovements, movementsArrayList);
+		return movementsArrayList;
+	}
+
+	private void inOrden2(Movement movement, ArrayList<Movement> movementsArrayList) {
+		if (movement == null) {
+			return;
+		}
+		inOrden2(movement.getLeft(), movementsArrayList);
+		movementsArrayList.add(movement);
+		inOrden2(movement.getRight(), movementsArrayList);
+	}
+	// ----------------------------------------------------------------------------------
+	
 }

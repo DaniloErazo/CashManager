@@ -8,9 +8,10 @@ public class Saving extends MoneyManagement {
 	private ArrayList<Movement> payments; //sorting
 	private int count; //abonos
  
+	public Saving() {}
+	
 	public Saving(String name, double max) {
 		super(name, max);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public ArrayList<Movement> getPayments() {

@@ -1,4 +1,4 @@
-package model;
+package thread;
 
 import java.util.Calendar;
 import javafx.application.Platform;

@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -60,7 +59,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="creditAccount" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#loadContents" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: 264653;" text="%credit.account">
+            <Button fx:id="creditAccountBtn" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#loadContents" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: 264653;" text="%credit.account">
                <padding>
                   <Insets left="50.0" />
                </padding>
@@ -75,7 +74,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="savingAccount" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#loadContents" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: 264653;" text="%saving">
+            <Button fx:id="savingAccountBtn" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#loadContents" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: 264653;" text="%saving">
                <padding>
                   <Insets left="50.0" />
                </padding>
@@ -174,20 +173,26 @@
                <center>
                   <TableView fx:id="lastMovementsTv" prefHeight="381.0" prefWidth="434.0" BorderPane.alignment="CENTER">
                      <columns>
-                        <TableColumn fx:id="movementTc" prefWidth="93.0" text="%table.movement" />
-                        <TableColumn fx:id="amountTc" prefWidth="74.0" text="%table.amount" />
+                        <TableColumn fx:id="typeTc" prefWidth="133.0" text="%table.type" />
+                        <TableColumn fx:id="amountTc" minWidth="-1.0" prefWidth="-1.0" text="%table.amount" />
                         <TableColumn fx:id="dateTc" prefWidth="81.0" text="%table.date" />
                         <TableColumn fx:id="descriptionTc" prefWidth="84.0" text="%table.description" />
-                        <TableColumn fx:id="typeTc" prefWidth="43.0" text="%table.type" />
                      </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                      <BorderPane.margin>
-                        <Insets bottom="30.0" left="30.0" right="30.0" />
+                        <Insets bottom="20.0" left="30.0" right="30.0" />
                      </BorderPane.margin>
                   </TableView>
                </center>
+               <bottom>
+                  <Button fx:id="exportAll" mnemonicParsing="false" onAction="#exportMovements" style="-fx-background-color: #2A9D8F;" text="Exportar todos los movimientos" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="20.0" />
+                     </BorderPane.margin>
+                  </Button>
+               </bottom>
             </BorderPane>
          </children>
       </StackPane>

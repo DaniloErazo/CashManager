@@ -20,7 +20,7 @@ class AccountTest {
 		
 		Movement testMove = new Movement("Bancolombia", 30000, "////", "X somos chavos", MovementType.INCOME, "any");
 		
-		testAccount.addSpend(testMove);
+		testAccount.addMovement(testMove);
 		
 		
 		
