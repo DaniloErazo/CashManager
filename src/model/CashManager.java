@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.lang.model.element.NestingKind;
+
 public class CashManager {
 
 	private ArrayList<CreditAccount> creditAccounts;
@@ -11,6 +13,8 @@ public class CashManager {
 	private ArrayList<Debt> debts;
 	private ArrayList<Saving> savings;
 	private ArrayList<Category> categorySpend;
+	private ArrayList<Category> categoryIncome;
+	
 	private User user;
 	private Movement rootMovements; //This binary search three save the movements in general, They will show to the user in the main page
 	
@@ -20,6 +24,7 @@ public class CashManager {
 		debts = new ArrayList<>();
 		savings = new ArrayList<>();
 		categorySpend = new ArrayList<>();
+		categoryIncome = new ArrayList<>();
 	}
 	
 	
@@ -159,6 +164,62 @@ public class CashManager {
 	
 	//-------------------------------------------------------------
 	
+	//----------------------------- create categories ----------------------------
+	
+	public boolean categoryExist(String name, String type) {
+		boolean found = false;
+		switch (type) {
+		case "INCOME":
+			
+			for (int i = 0; i < categoryIncome.size(); i++) {
+				if(categoryIncome.get(i).getName().equals(name)) {
+					found = true;
+				}
+			}
+			
+			break;
+		case "SPEND":
+			
+			for (int i = 0; i < categorySpend.size(); i++) {
+				if(categorySpend.get(i).getName().equals(name)) {
+					found = true;
+				}
+			}
+			
+			break;
+		default:
+			break;
+		}
+		
+		return found;
+		
+	}
+	
+	public void createCateogry(String name, String type) {
+		
+		Category newOne = new Category(name, CategoryType.valueOf(type));
+		
+		switch (type) {
+		case "SPEND":
+			categorySpend.add(newOne);
+			break;
+		
+		case "INCOME":
+			categoryIncome.add(newOne);
+			break;
+
+		default:
+			break;
+		}
+		
+		
+		
+		
+	}
+	
+	
+	//----------------------------------------------------------------------
+	
 	
 
 	public ArrayList<CreditAccount> getCreditAccounts() {
@@ -264,5 +325,15 @@ public class CashManager {
 		inOrden2(movement.getRight(), movementsArrayList);
 	}
 	// ----------------------------------------------------------------------------------
+
+
+	public ArrayList<Category> getCategoryIncome() {
+		return categoryIncome;
+	}
+
+
+	public void setCategoryIncome(ArrayList<Category> categoryIncome) {
+		this.categoryIncome = categoryIncome;
+	}
 	
 }

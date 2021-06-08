@@ -40,6 +40,7 @@ import javafx.stage.Window;
 import model.Account;
 import javafx.stage.FileChooser;
 import model.CashManager;
+import model.CategoryType;
 import model.CreditAccount;
 import model.Debt;
 import model.MoneyManagement;
@@ -445,6 +446,21 @@ public class MainController implements Initializable{
     	
     }
     
+
+    @FXML
+    public void addCategory(ActionEvent event) throws IOException {
+    	
+    	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CreateCategory.fxml"));
+   		fxmlLoader.setController(this);
+   		fxmlLoader.setResources(bundle);
+   	    Parent category = fxmlLoader.load();
+   	    setTypesCategory();
+  	    paneContents.setVisible(true);
+  	    paneContents.getChildren().clear();
+  	    paneContents.setCenter(category);
+    	
+    }
+    
     
   //-----------------------------------------------------------------------------------
     
@@ -655,17 +671,16 @@ public class MainController implements Initializable{
     		try {
     			String name = dataGathered.get(0);
     			double money = Double.parseDouble(dataGathered.get(1));
-    			System.out.println(money);
     			
     			if(name.isEmpty()) {
     				
-    				sendAlert(bundle.getString("register.problem"), bundle.getString("name.missing"));
+    				warningAlert(bundle.getString("register.problem"), bundle.getString("name.missing"));
     				
         		}else {
         			
         			if(cashManager.accountExist(0, name)!=null) {
         				
-        				sendAlert(bundle.getString("register.problem"), bundle.getString("name.repeated.account"));
+        				warningAlert(bundle.getString("register.problem"), bundle.getString("name.repeated.account"));
         				
         			}else {
         				
@@ -679,7 +694,7 @@ public class MainController implements Initializable{
     			
 			} catch (NumberFormatException e) {
 				
-				sendAlert(bundle.getString("register.problem"), bundle.getString("double.parseexception"));
+				warningAlert(bundle.getString("register.problem"), bundle.getString("double.parseexception"));
     			
     			((TextField)createAccountGrid.getChildren().get(3)).setText("");
 			}
@@ -950,4 +965,52 @@ public class MainController implements Initializable{
 	  }
   }
   //----------------------------------------------------------------------------------------   
+  
+  
+  //-------------------------------------- createcategory--------------------------------------
+  
+  @FXML
+  private ComboBox<String> categoryType;
+
+  @FXML
+  private TextField categoryNameTxt;
+  
+
+  @FXML
+  public void createCategory(ActionEvent event) {
+	  
+	  String name = categoryNameTxt.getText();
+	  String type = categoryType.getValue();
+
+	  
+	  if(name.isEmpty()) {
+		  warningAlert(bundle.getString("error"), bundle.getString("name.missing"));
+	  }
+		  
+	  if(type==null) {
+		  warningAlert(bundle.getString("error"), bundle.getString("category.type.missing"));
+	  }else {
+		  if(cashManager.categoryExist(name, type)) {
+				 warningAlert(bundle.getString("error"), bundle.getString("existing.category"));
+			 }else {
+				 cashManager.createCateogry(name, type);
+				 
+				 sendAlert(bundle.getString("succesful.register"), bundle.getString("category.creation") );
+			 }
+	  }
+  }
+				
+		  
+		 	  
+	  
+
+  
+  
+  
+  public void setTypesCategory() {
+	  ObservableList<String> types = FXCollections.observableArrayList(CategoryType.values()[0].name(),CategoryType.values()[1].name());
+	  categoryType.setItems(types);
+  }
+  
+  //---------------------------------------------------------------------------------------
 }

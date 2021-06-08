@@ -4,10 +4,10 @@ public class Category {
 
 	private String name;
 	private int count;
-	private String type;
+	private CategoryType type;
 	private Category rootMovement;
 	
-	public Category(String name, String type) {
+	public Category(String name, CategoryType type) {
 		
 		this.name=name;
 		this.setType(type);
@@ -38,11 +38,11 @@ public class Category {
 		this.rootMovement = rootMovement;
 	}
 
-	public String getType() {
+	public CategoryType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(CategoryType type) {
 		this.type = type;
 	}
 
