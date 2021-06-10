@@ -63,9 +63,7 @@ public abstract class Account {
 		    pw.println(root.exportMovement());
 		    printExport(root.getRight(), pw);
 	    }
-	    
-	        
-	    
+  
 	}
 
 	// Methods to add movements in the binary search tree--------------------------------------------------
@@ -99,7 +97,7 @@ public abstract class Account {
 	}
 	// ----------------------------------------------------------------------------------
 
-	// Methods to traverse the tree turning it into ArrayList----------------------------
+	//Methods to traverse the tree turning it into ArrayList----------------------------
 	public ArrayList<Movement> inOrden() {
 		ArrayList<Movement> movementsArrayList = new ArrayList<Movement>();
 		inOrden2(root, movementsArrayList);

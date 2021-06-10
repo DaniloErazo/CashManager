@@ -4,8 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import javax.lang.model.element.NestingKind;
-
 public class CashManager {
 
 	private ArrayList<CreditAccount> creditAccounts;
@@ -212,9 +210,6 @@ public class CashManager {
 			break;
 		}
 		
-		
-		
-		
 	}
 	
 	
@@ -278,7 +273,7 @@ public class CashManager {
 		this.rootMovements = rootLastMovements;
 	}
 	
-	// Methods movements in the binary search tree---------------------------
+	//Methods to add movements in the binary search tree---------------------------
 	public void addMovement(Movement newMovement) {
 		if (rootMovements == null) {
 			rootMovements = newMovement;
@@ -326,11 +321,9 @@ public class CashManager {
 	}
 	// ----------------------------------------------------------------------------------
 
-
 	public ArrayList<Category> getCategoryIncome() {
 		return categoryIncome;
 	}
-
 
 	public void setCategoryIncome(ArrayList<Category> categoryIncome) {
 		this.categoryIncome = categoryIncome;
