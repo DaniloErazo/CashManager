@@ -150,11 +150,6 @@ public class Main extends Application {
 		postLoader.setCycleCount(1);
 		postLoader.play();
 
-		  
-		
-		
-			
-		
 		
 		
 	}

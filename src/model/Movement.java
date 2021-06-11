@@ -8,8 +8,6 @@ public class Movement {
 	private String description;
 	private MovementType type;
 	private String category;
-//	private String code;
-//	private Movement nextIncome;
 	private Movement nextSpend;
 	private Movement left, right;
 	private Movement next, previous;
@@ -23,12 +21,17 @@ public class Movement {
 		this.description = description;
 		this.type = type;
 		this.setCategory(category);
-//		this.code = code;
-//		this.setNextIncome(nextIncome);
-//		this.setNextSpend(nextSpend);
+
 	}
+	
+	public Movement(String account, double amount, String date, String description, MovementType type) {
+		this.setAccount(account);
+		this.amount = amount;
+		this.date = date;
+		this.description = description;
+		this.type = type;
 
-
+	}
 
 	public double getAmount() {
 		return amount;

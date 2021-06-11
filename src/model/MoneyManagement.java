@@ -72,7 +72,7 @@ public class MoneyManagement implements Analysis {
 
 	}
 
-	// Method to add a movement in the double linked list of-----------------------
+	// Method to add a movement in the double linked list of movements-----------------------
 	public void addMovement(Movement newMovement) {
 
 		if (first == null) {

@@ -35,6 +35,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -92,7 +93,7 @@ public class MainController implements Initializable{
     private Label accountCount;
 
     @FXML
-    private Label debtCount;
+    private Label totalDebt;
   
 	@FXML
     private Button normalAccount;
@@ -125,6 +126,9 @@ public class MainController implements Initializable{
     private TableColumn<Movement, String> typeTc;
     
     @FXML
+    private TableColumn<Movement, String> accountTc;
+    
+    @FXML
     private TableColumn<Movement, String> amountTc;
 
     @FXML
@@ -138,6 +142,12 @@ public class MainController implements Initializable{
     
     @FXML
     private Label welcomeLbl;
+    
+    private int accoutCountInt;
+    
+    private double totalCashDouble;
+    
+    private double totalDebtDouble;
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	@FXML
@@ -155,9 +165,19 @@ public class MainController implements Initializable{
 				
 				paneOverview.setVisible(true);
 				paneContents.setVisible(false);
-				
+				try {
+					initializeTableViewOfMovements(); 
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
 			}
 	    });
+		
+		try {
+			initializeTableViewOfMovements();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 
 	}
     
@@ -276,16 +296,19 @@ public class MainController implements Initializable{
 	    paneContents.setCenter(passwordScreen);
     }
     
-//	private void initializeTableViewOfMovements() throws FileNotFoundException {
-//    	ObservableList<Movement> observableList;
-//    	observableList = FXCollections.observableArrayList();
-//    	
-//		lastMovementsTv.setItems(observableList);
-//		typeTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("account"));
-//		amountTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("amount"));
-//	    dateTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("date"));
-//		descriptionTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("description"));
-//	}
+	private void initializeTableViewOfMovements() throws FileNotFoundException {
+    	ObservableList<Movement> observableList = null;
+    	if (cashManager.inOrden().size() != 0) {
+        	observableList = FXCollections.observableArrayList(cashManager.inOrden());
+		}
+
+		lastMovementsTv.setItems(observableList);
+		typeTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("type"));
+		accountTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("account"));
+		amountTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("amount"));
+	    dateTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("date"));
+		descriptionTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("description"));
+	}
     
     public void sendAlert(String title, String text) {
 		
@@ -332,34 +355,75 @@ public class MainController implements Initializable{
     @FXML
     private ComboBox<String> categoriesMovement;
     
+    @FXML
+    private Button addCategorybtn;
+    
+    @FXML
+    private Label movementCategoryLbl;
+    
+    
+    
     private Calendar calendar;
+    
+    private int typeAccount;
 
     @FXML
     public void addMovement(ActionEvent event) throws InterruptedException {
-    	if (typesAccount.getSelectionModel().getSelectedItem() == null && 
-    		accountOptions.getSelectionModel().getSelectedItem() == null && 
+    	if (accountOptions.getSelectionModel().getSelectedItem() == null && 
     		amountCashTxt.getText().isEmpty() && 
     		typesMovement.getSelectionModel().getSelectedItem() == null &&
     		categoriesMovement.getSelectionModel().getSelectedItem() == null) { //All blanks are empty
     		
     		warningAlert(bundle.getString("movement.addMovementTitle"),bundle.getString("movement.addMovementWarningMsg"));
 		}
-    	else if (typesAccount.getSelectionModel().getSelectedItem() == null) { //An account type has not been selected
-			warningAlert(bundle.getString("movement.typesAccountTitle"), bundle.getString("movement.typesAccountWarningMsg"));
-		}
     	else if (accountOptions.getSelectionModel().getSelectedItem() == null) { //An account has not been selected
 			warningAlert(bundle.getString("movement.accountTitle"), bundle.getString("movement.accountWarningMsg"));
 		}
     	else if (amountCashTxt.getText() .isEmpty() || Double.parseDouble(amountCashTxt.getText()) == 0) { //The amount field is empty or it has as value zero
-    		warningAlert("movement.amountTitle", "movement.amountWarningMsg");
+    		warningAlert(bundle.getString("movement.amountTitle"), bundle.getString("movement.amountWarningMsg"));
 		}
     	else if (typesMovement.getSelectionModel().getSelectedItem() == null) { //A movement type has not been selected
 			warningAlert(bundle.getString("movement.typeTitle"), bundle.getString("movement.typeWarningMsg"));
+		}
+    	else if (typesMovement.getSelectionModel().getSelectedIndex() == 2 || typesMovement.getSelectionModel().getSelectedIndex() == 3) { //between accounts or payment
+    		String account = accountOptions.getSelectionModel().getSelectedItem();
+            double amount = Double.parseDouble(amountCashTxt.getText());
+        	MovementType type = MovementType.values()[typesMovement.getSelectionModel().getSelectedIndex()];
+        	String dateStr = date.getText();
+        	String description = movementDescTxt.getText();
+        	Movement movement;
+        	switch (typeAccount) {
+			case 0: //saving account
+				movement = new Movement(account, amount, dateStr, description, type);
+				savingAccount.addMovement(movement);
+				totalCashDouble =+ amount;
+				totalCash.setText(String.valueOf(totalCashDouble));
+				break;
+			case 1: //credit account
+				movement = new Movement(account, amount, dateStr, description, type);
+				creditAccount.addMovement(movement);
+				break;	
+			case 2: //saving 
+				movement = new Movement(account, amount, dateStr, description, type);
+				saving.addMovement(movement);
+				totalCashDouble =+ amount;
+				totalCash.setText(String.valueOf(totalCashDouble));
+				break;
+			case 3: //debt
+				movement = new Movement(account, amount, dateStr, description, type);
+				debt.addMovement(movement);
+				break;
+			}
+        	
+        	movement = new Movement(account, amount, dateStr, description, type);
+        	cashManager.addMovement(movement);//The new movement is added in the "main" binary search tree too
+        	sendAlert(bundle.getString("movement.addMovementTitle"), bundle.getString("movement.addedSuccesfullyMsg"));
 		}
     	else if (categoriesMovement.getSelectionModel().getSelectedItem() == null) { //A movement category has not been selected
     		warningAlert(bundle.getString("movement.categoryTitle"), bundle.getString("movement.categoryWarningMsg"));
 		}
     	else {
+
         	String account = accountOptions.getSelectionModel().getSelectedItem();
             double amount = Double.parseDouble(amountCashTxt.getText());
         	MovementType type = MovementType.values()[typesMovement.getSelectionModel().getSelectedIndex()];
@@ -367,7 +431,7 @@ public class MainController implements Initializable{
         	String dateStr = date.getText();
         	String description = movementDescTxt.getText();
         	Movement movement;
-        	switch (typesAccount.getSelectionModel().getSelectedIndex()) {
+        	switch (typeAccount) {
 			case 0: //saving account
 				movement = new Movement(account, amount, dateStr, description, type, category);
 				savingAccount.addMovement(movement);
@@ -384,6 +448,11 @@ public class MainController implements Initializable{
 				movement = new Movement(account, amount, dateStr, description, type, category);
 				debt.addMovement(movement);
 				break;
+			}
+        	
+        	if (categoriesMovement.getSelectionModel().getSelectedIndex() == 1 && typeAccount != 1 && typeAccount != 3) { //income and it is not a credit account or debt
+				totalCashDouble =+ amount;
+				totalCash.setText(String.valueOf(totalCashDouble));
 			}
     
         	movement = new Movement(account, amount, dateStr, description, type, category);
@@ -410,26 +479,33 @@ public class MainController implements Initializable{
     	typesAccount.setItems(types);
     }
     
-    public void initializeComboBoxAccountOptions(int accountType) {
+    
+    //This method initialize the combo box where are all enable account for a type account selected
+    @FXML
+    void initializeComboBoxAccountOptions(ActionEvent event) {
     	ArrayList<String> accountNameList = new ArrayList<>();
     	
-    	switch (accountType) {
+    	switch (typesAccount.getSelectionModel().getSelectedIndex()) {
 		case 0: 
+			typeAccount = 0;
 	    	for (int i = 0; i < cashManager.getSavingAccounts().size(); i++) {
 				accountNameList.add(i, cashManager.getSavingAccounts().get(i).getName());
 			}
 			break;
 		case 1:
+			typeAccount = 1;
 	    	for (int i = 0; i < cashManager.getCreditAccounts().size(); i++) {
 				accountNameList.add(i, cashManager.getCreditAccounts().get(i).getName());
 			}
 			break;
 		case 2: 
+			typeAccount = 2;
 	    	for (int i = 0; i < cashManager.getSavings().size(); i++) {
 				accountNameList.add(i, cashManager.getSavings().get(i).getNameMoneyManagment());
 			}
 			break;
 		case 3: 
+			typeAccount = 3;
 	    	for (int i = 0; i < cashManager.getDebts().size(); i++) {
 				accountNameList.add(i, cashManager.getDebts().get(i).getNameMoneyManagment());
 			}
@@ -440,26 +516,42 @@ public class MainController implements Initializable{
     	accountOptions.setItems(accounts);
 	}
     
+    public void setVisibleRowCategory(boolean visible) {
+    	movementCategoryLbl.setVisible(visible);
+    	categoriesMovement.setVisible(visible);
+    	addCategorybtn.setVisible(visible);
+    }
+    
     public void initializeComboBoxTypesMovement() {
-    	ObservableList<String> types = FXCollections.observableArrayList(MovementType.values()[0].name(),MovementType.values()[1].name(),
-    																	 MovementType.values()[2].name(),MovementType.values()[3].name());
+    	ObservableList<String> types = FXCollections.observableArrayList(bundle.getString("movement.typeIncome"),bundle.getString("movement.typeSpend"),
+    																	 bundle.getString("movement.typeBetweenAccount"),bundle.getString("movement.typePayment"));
         typesMovement.setItems(types);
     }
      
-    public void initializeComboBoxCategoriesMovement(int movementType) {
+    @FXML
+    void initializeComboBoxCategoriesMovement(ActionEvent event) {
     	ArrayList<String> categoriesNameList = new ArrayList<>();
-    	switch (movementType) {
+    	switch (typesMovement.getSelectionModel().getSelectedIndex()) {
 		case 0:
+			setVisibleRowCategory(true);
 	    	for (int i = 0; i < cashManager.getCategoryIncome().size(); i++) {
 				categoriesNameList.add(i,cashManager.getCategoryIncome().get(i).getName());
 			}
 			break;
 		case 1:
+			setVisibleRowCategory(true);
 	    	for (int i = 0; i < cashManager.getCategorySpend().size(); i++) {
 				categoriesNameList.add(i,cashManager.getCategorySpend().get(i).getName());
 			}
 			break;
+		case 2:
+			setVisibleRowCategory(false);
+			break;
+    	case 3:
+    		setVisibleRowCategory(false);
+			break;
 		}
+    	
     	ObservableList<String> types = FXCollections.observableArrayList(categoriesNameList);
     	categoriesMovement.setItems(types);
     }
@@ -734,11 +826,9 @@ public class MainController implements Initializable{
 
     @FXML
     private GridPane createAccountGrid;
-
     
     @FXML
     private SplitMenuButton accountsDisplay;
-
     
     //USe gather method from LaCasaDorada to get the values inputted by the user
     
@@ -766,6 +856,10 @@ public class MainController implements Initializable{
         			}else {
         				
         				cashManager.createSavingAccount(name, money);
+        				accoutCountInt++;
+        				accountCount.setText(String.valueOf(accoutCountInt));
+        				totalCashDouble =+ money;
+        				totalCash.setText(String.valueOf(totalCashDouble));
         				
         				sendAlert(bundle.getString("succesful.register"), bundle.getString("account.creation"));
         				
@@ -799,7 +893,8 @@ public class MainController implements Initializable{
         			}else {
         				
         				cashManager.createCreditAccount(name, interest, quota);
-        				
+        				accoutCountInt++;
+        				accountCount.setText(String.valueOf(accoutCountInt));
         				sendAlert(bundle.getString("succesful.register"), bundle.getString("account.creation"));
         				
         			}
@@ -834,7 +929,10 @@ public class MainController implements Initializable{
         			}else {
         				
         				cashManager.createDebt(name, interest, fee, money);
-        				
+        				accoutCountInt++;
+        				accountCount.setText(String.valueOf(accoutCountInt));
+        				totalDebtDouble =+ money;
+        				totalDebt.setText(String.valueOf(totalDebtDouble));
         				sendAlert(bundle.getString("succesful.register"), bundle.getString("account.creation"));
         				
         			}
@@ -864,7 +962,10 @@ public class MainController implements Initializable{
     			}else {
     				
     				cashManager.createSaving(name, money);
-    				
+    				accoutCountInt++;
+    				accountCount.setText(String.valueOf(accoutCountInt));
+    				totalCashDouble =+ money;
+    				totalCash.setText(String.valueOf(totalCashDouble));
     				sendAlert(bundle.getString("succesful.register"), bundle.getString("account.creation"));
     				
     			}
