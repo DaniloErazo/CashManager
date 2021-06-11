@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import javax.lang.model.element.NestingKind;
+import exceptions.ExistingCategoryException;
 
 public class CashManager {
 
@@ -166,14 +166,14 @@ public class CashManager {
 	
 	//----------------------------- create categories ----------------------------
 	
-	public boolean categoryExist(String name, String type) {
-		boolean found = false;
+	public void categoryExist(String name, String type) throws ExistingCategoryException {
+		
 		switch (type) {
 		case "INCOME":
 			
 			for (int i = 0; i < categoryIncome.size(); i++) {
 				if(categoryIncome.get(i).getName().equals(name)) {
-					found = true;
+					throw new ExistingCategoryException(name);
 				}
 			}
 			
@@ -182,7 +182,7 @@ public class CashManager {
 			
 			for (int i = 0; i < categorySpend.size(); i++) {
 				if(categorySpend.get(i).getName().equals(name)) {
-					found = true;
+					throw new ExistingCategoryException(name);
 				}
 			}
 			
@@ -190,8 +190,6 @@ public class CashManager {
 		default:
 			break;
 		}
-		
-		return found;
 		
 	}
 	
@@ -212,9 +210,19 @@ public class CashManager {
 			break;
 		}
 		
+	}
+	
+	public void setDefaultCategories() {
+		createCateogry("Comida", "SPEND");
+		createCateogry("Transporte", "SPEND");
+		createCateogry("Entretenimiento", "SPEND");
+		createCateogry("Educación", "SPEND");
+		createCateogry("Salud", "SPEND");
 		
-		
-		
+		createCateogry("Salario", "INCOME");
+		createCateogry("Deuda a favor", "INCOME");
+		createCateogry("Dinero extra", "INCOME");
+		createCateogry("Otro", "INCOME");
 	}
 	
 	

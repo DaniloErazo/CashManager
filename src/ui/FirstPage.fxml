@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="borderpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="667.0" prefWidth="1050.0" style="-fx-background-color: #2A9D8F;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Circle fx:id="circle1" fill="#eaf2aa00" layoutX="377.0" layoutY="136.0" radius="38.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Rectangle fx:id="square1" arcHeight="5.0" arcWidth="5.0" fill="#e9f0ad00" height="76.0" layoutX="440.0" layoutY="98.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="76.0" />
+            <Circle fx:id="circle2" fill="#e9f0ad00" layoutX="582.0" layoutY="136.0" radius="38.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Rectangle fx:id="square2" arcHeight="5.0" arcWidth="5.0" fill="#eaf2aa00" height="76.0" layoutX="643.0" layoutY="98.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="76.0" />
+         </children>
+      </Pane>
+   </center>
+   <top>
+      <Pane fx:id="background" opacity="0.71" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="TOP_CENTER" layoutX="-3.0" prefHeight="202.0" prefWidth="1056.0">
+               <children>
+                  <Label alignment="CENTER" text="Cash Manager" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" text="Bienvenido">
+                     <font>
+                        <Font size="27.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+         <BorderPane.margin>
+            <Insets top="150.0" />
+         </BorderPane.margin>
+      </Pane>
+   </top>
+</BorderPane>

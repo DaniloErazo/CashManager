@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
-public class MoneyManagement {
+public class MoneyManagement implements Analysis {
 
 	private String nameMoneyManagment;
 	private double maxAmount;

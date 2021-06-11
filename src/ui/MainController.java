@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.ResourceBundle;
+
+import exceptions.ExistingCategoryException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -990,23 +992,21 @@ public class MainController implements Initializable{
 	  if(type==null) {
 		  warningAlert(bundle.getString("error"), bundle.getString("category.type.missing"));
 	  }else {
-		  if(cashManager.categoryExist(name, type)) {
-				 warningAlert(bundle.getString("error"), bundle.getString("existing.category"));
-			 }else {
-				 cashManager.createCateogry(name, type);
-				 
-				 sendAlert(bundle.getString("succesful.register"), bundle.getString("category.creation") );
-			 }
+		  
+		  try {
+			  
+			cashManager.categoryExist(name, type);
+			cashManager.createCateogry(name, type);
+					 
+			sendAlert(bundle.getString("succesful.register"), bundle.getString("category.creation") );
+			
+			}catch (ExistingCategoryException e) {
+			warningAlert(bundle.getString("error"), bundle.getString("existing.category"));
+			}
 	  }
+		  
   }
 				
-		  
-		 	  
-	  
-
-  
-  
-  
   public void setTypesCategory() {
 	  ObservableList<String> types = FXCollections.observableArrayList(CategoryType.values()[0].name(),CategoryType.values()[1].name());
 	  categoryType.setItems(types);
