@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="614.0" style="-fx-background-color: #2A9D8F;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="424.0" prefWidth="614.0" style="-fx-background-color: #2A9D8F;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <Label text="%movement.title" BorderPane.alignment="CENTER">
          <font>
@@ -46,7 +46,7 @@
                      <children>
                         <BorderPane prefHeight="73.0" prefWidth="134.0">
                            <center>
-                              <ComboBox fx:id="typesAccount" prefHeight="25.0" prefWidth="121.0" promptText="%display.accountType" BorderPane.alignment="CENTER" />
+                              <ComboBox fx:id="typesAccount" onAction="#initializeComboBoxAccountOptions" prefHeight="25.0" prefWidth="121.0" promptText="%display.accountType" BorderPane.alignment="CENTER" />
                            </center>
                         </BorderPane>
                         <BorderPane prefHeight="73.0" prefWidth="161.0">
@@ -100,16 +100,16 @@
                               <Font size="19.0" />
                            </font>
                         </Label>
-                        <Label text="%movement.category" textFill="#f4e9cd" GridPane.rowIndex="4">
+                        <Label fx:id="movementCategoryLbl" text="%movement.category" textFill="#f4e9cd" GridPane.rowIndex="4">
                            <font>
                               <Font size="19.0" />
                            </font>
                         </Label>
                         <TextField fx:id="date" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <ComboBox fx:id="typesMovement" prefHeight="25.0" prefWidth="108.0" promptText="%movementType.display" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <ComboBox fx:id="typesMovement" onAction="#initializeComboBoxCategoriesMovement" prefHeight="25.0" prefWidth="108.0" promptText="%movementType.display" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <ComboBox fx:id="categoriesMovement" prefHeight="25.0" prefWidth="199.0" promptText="%movementCategory.display" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <TextArea fx:id="movementDescTxt" prefHeight="57.0" prefWidth="196.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Button mnemonicParsing="false" onAction="#addCategory" style="-fx-background-radius: 5em; -fx-background-color: #2A9D8F;" text="+" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                        <Button fx:id="addCategorybtn" mnemonicParsing="false" onAction="#addCategory" style="-fx-background-radius: 5em; -fx-background-color: #2A9D8F;" text="+" GridPane.columnIndex="2" GridPane.rowIndex="4">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
