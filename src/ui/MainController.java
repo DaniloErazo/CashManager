@@ -169,7 +169,9 @@ public class MainController implements Initializable{
 					initializeTableViewOfMovements(); 
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
-				}
+				}	
+				totalCash.setText(String.valueOf(totalCashDouble));
+				totalDebt.setText(String.valueOf(totalDebtDouble));
 			}
 	    });
 		
@@ -178,7 +180,8 @@ public class MainController implements Initializable{
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-
+		totalDebt.setText(String.valueOf(totalDebtDouble));
+		totalDebt.setText(String.valueOf(totalDebtDouble));
 	}
     
     @FXML
@@ -396,8 +399,13 @@ public class MainController implements Initializable{
 			case 0: //saving account
 				movement = new Movement(account, amount, dateStr, description, type);
 				savingAccount.addMovement(movement);
-				totalCashDouble =+ amount;
-				totalCash.setText(String.valueOf(totalCashDouble));
+				if (typesMovement.getSelectionModel().getSelectedIndex() == 0) {//income
+					totalCashDouble = totalCashDouble + amount;
+				}
+				else if (typesMovement.getSelectionModel().getSelectedIndex() == 1) {//spend
+					totalDebtDouble = totalDebtDouble - amount;
+					totalCashDouble = totalCashDouble - amount;
+				}
 				break;
 			case 1: //credit account
 				movement = new Movement(account, amount, dateStr, description, type);
@@ -406,12 +414,13 @@ public class MainController implements Initializable{
 			case 2: //saving 
 				movement = new Movement(account, amount, dateStr, description, type);
 				saving.addMovement(movement);
-				totalCashDouble =+ amount;
-				totalCash.setText(String.valueOf(totalCashDouble));
+				totalCashDouble = totalCashDouble + amount;
 				break;
 			case 3: //debt
 				movement = new Movement(account, amount, dateStr, description, type);
 				debt.addMovement(movement);
+				totalDebtDouble = totalDebtDouble + amount;
+				totalCashDouble = totalCashDouble - amount;
 				break;
 			}
         	
@@ -431,10 +440,21 @@ public class MainController implements Initializable{
         	String dateStr = date.getText();
         	String description = movementDescTxt.getText();
         	Movement movement;
+        	if (categoriesMovement.getSelectionModel().getSelectedIndex() == 1 && typeAccount != 1 && typeAccount != 3) { //income and it is not a credit account or debt
+				totalCashDouble =+ amount;
+				totalCash.setText(String.valueOf(totalCashDouble));
+			}
         	switch (typeAccount) {
 			case 0: //saving account
 				movement = new Movement(account, amount, dateStr, description, type, category);
 				savingAccount.addMovement(movement);
+				if (typesMovement.getSelectionModel().getSelectedIndex() == 0) {//income
+					totalCashDouble = totalCashDouble + amount;
+				}
+				else if (typesMovement.getSelectionModel().getSelectedIndex() == 1) {//spend
+					totalDebtDouble = totalDebtDouble - amount;
+					totalCashDouble = totalCashDouble - amount;
+				}
 				break;
 			case 1: //credit account
 				movement = new Movement(account, amount, dateStr, description, type, category);
@@ -443,23 +463,20 @@ public class MainController implements Initializable{
 			case 2: //saving 
 				movement = new Movement(account, amount, dateStr, description, type, category);
 				saving.addMovement(movement);
+				totalCashDouble = totalCashDouble + amount;
 				break;
 			case 3: //debt
 				movement = new Movement(account, amount, dateStr, description, type, category);
 				debt.addMovement(movement);
+				totalDebtDouble = totalDebtDouble + amount;
+				totalCashDouble = totalCashDouble - amount;
 				break;
-			}
-        	
-        	if (categoriesMovement.getSelectionModel().getSelectedIndex() == 1 && typeAccount != 1 && typeAccount != 3) { //income and it is not a credit account or debt
-				totalCashDouble =+ amount;
-				totalCash.setText(String.valueOf(totalCashDouble));
 			}
     
         	movement = new Movement(account, amount, dateStr, description, type, category);
         	cashManager.addMovement(movement);//The new movement is added in the "main" binary search tree too
         	sendAlert(bundle.getString("movement.addMovementTitle"), bundle.getString("movement.addedSuccesfullyMsg"));
 		}
-
     }
 
     @FXML
@@ -570,8 +587,6 @@ public class MainController implements Initializable{
   	    paneContents.setCenter(category);
     	
     }
-    
-    
   //-----------------------------------------------------------------------------------
     
     
@@ -810,7 +825,7 @@ public class MainController implements Initializable{
     
   //-----------------------------------------------------------------------------------
     
-    //---------------------------CreateAccount.fxml ----------------------------------
+  //---------------------------CreateAccount.fxml ----------------------------------
     
     @FXML
     private MenuItem savingAccountC;
@@ -856,10 +871,11 @@ public class MainController implements Initializable{
         			}else {
         				
         				cashManager.createSavingAccount(name, money);
+        				
         				accoutCountInt++;
         				accountCount.setText(String.valueOf(accoutCountInt));
-        				totalCashDouble =+ money;
-        				totalCash.setText(String.valueOf(totalCashDouble));
+        				
+        				totalCashDouble = totalCashDouble + money;
         				
         				sendAlert(bundle.getString("succesful.register"), bundle.getString("account.creation"));
         				
@@ -893,8 +909,10 @@ public class MainController implements Initializable{
         			}else {
         				
         				cashManager.createCreditAccount(name, interest, quota);
+        				
         				accoutCountInt++;
         				accountCount.setText(String.valueOf(accoutCountInt));
+        		
         				sendAlert(bundle.getString("succesful.register"), bundle.getString("account.creation"));
         				
         			}
@@ -931,8 +949,8 @@ public class MainController implements Initializable{
         				cashManager.createDebt(name, interest, fee, money);
         				accoutCountInt++;
         				accountCount.setText(String.valueOf(accoutCountInt));
-        				totalDebtDouble =+ money;
-        				totalDebt.setText(String.valueOf(totalDebtDouble));
+        				totalDebtDouble = totalDebtDouble + money;
+        				totalCashDouble = totalCashDouble - money;
         				sendAlert(bundle.getString("succesful.register"), bundle.getString("account.creation"));
         				
         			}
@@ -962,10 +980,12 @@ public class MainController implements Initializable{
     			}else {
     				
     				cashManager.createSaving(name, money);
+    				
     				accoutCountInt++;
     				accountCount.setText(String.valueOf(accoutCountInt));
-    				totalCashDouble =+ money;
-    				totalCash.setText(String.valueOf(totalCashDouble));
+    				
+    				totalCashDouble = totalCashDouble + money;
+    				
     				sendAlert(bundle.getString("succesful.register"), bundle.getString("account.creation"));
     				
     			}
@@ -1117,7 +1137,8 @@ public class MainController implements Initializable{
 
 	public void setActualAccount(Account actualAccount) {
 		this.actualAccount = actualAccount;
-	}
+	} 
+
 
   //-----------------------------------------------------------------------------------
 
