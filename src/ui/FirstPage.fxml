@@ -30,7 +30,7 @@
                         <Font size="48.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" text="Bienvenido">
+                  <Label alignment="CENTER" text="%user.welcome">
                      <font>
                         <Font size="27.0" />
                      </font>

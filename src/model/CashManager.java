@@ -223,6 +223,7 @@ public class CashManager {
 		createCateogry("Deuda a favor", "INCOME");
 		createCateogry("Dinero extra", "INCOME");
 		createCateogry("Otro", "INCOME");
+
 	}
 	
 	
@@ -286,7 +287,7 @@ public class CashManager {
 		this.rootMovements = rootLastMovements;
 	}
 	
-	// Methods movements in the binary search tree---------------------------
+	//Methods to add movements in the binary search tree---------------------------
 	public void addMovement(Movement newMovement) {
 		if (rootMovements == null) {
 			rootMovements = newMovement;
@@ -334,11 +335,9 @@ public class CashManager {
 	}
 	// ----------------------------------------------------------------------------------
 
-
 	public ArrayList<Category> getCategoryIncome() {
 		return categoryIncome;
 	}
-
 
 	public void setCategoryIncome(ArrayList<Category> categoryIncome) {
 		this.categoryIncome = categoryIncome;

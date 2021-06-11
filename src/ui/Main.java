@@ -52,22 +52,23 @@ public class Main extends Application {
     private BorderPane borderpane;
 
 	public static void main(String[] args) {
+		
+		
 		Locale.setDefault(new Locale("es", "CO"));
-		
 		ppal = new CashManager();
-		
 		ResourceBundle bundle = ResourceBundle.getBundle(("ui.Messages"), Locale.getDefault());
 		mainGUI = new MainController(bundle, ppal); 
-		secondaryGUI = new SecondaryController(bundle);
+
+		secondaryGUI = new SecondaryController(bundle, ppal);
 
 		
 		launch(args);
 		
 	}
 	
-//	public Main(boolean lock) {
-//		this.lock = lock;
-//	}
+	public void setLock(boolean lock) {
+		this.lock = lock;
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -93,6 +94,7 @@ public class Main extends Application {
 		fxmlLoader2.setResources(bundle);
 		
 		fxmlLoader2.setController(this);
+		
 		
 		primaryStage.setResizable(false);
 		

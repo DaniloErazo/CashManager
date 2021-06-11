@@ -39,10 +39,13 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Label text="%user.welcome">
+            <Label fx:id="welcomeLbl">
                <VBox.margin>
                   <Insets bottom="20.0" />
                </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </Label>
             <Button fx:id="normalAccount" alignment="BASELINE_LEFT" graphicTextGap="22.0" mnemonicParsing="false" onAction="#loadContents" prefHeight="42.0" prefWidth="259.0" style="-fx-background-color: 264653;" text="%saving.account">
                <padding>

@@ -51,6 +51,7 @@ import model.Movement;
 import model.MovementType;
 import model.Saving;
 import model.SavingAccount;
+import model.User;
 import thread.Clock;
 import thread.ExportData;
 
@@ -59,7 +60,6 @@ public class MainController implements Initializable{
 	
 
 	//------------------------------- MainPage.fxml ---------------------------------
-	
 
 	private Account actualAccount;
 	private MoneyManagement accountActual;
@@ -82,7 +82,8 @@ public class MainController implements Initializable{
 		debt = new Debt();
 	}
 	
-
+	public MainController() {}
+	
 	@FXML
     private Label totalCash;
 
@@ -134,11 +135,13 @@ public class MainController implements Initializable{
     @FXML
     private Label time;
     
-	
-    
+    @FXML
+    private Label welcomeLbl;
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	@FXML
     public void initialize(URL location, ResourceBundle resources) {
+    	welcomeLbl.setText(bundle.getString("user.welcome") + " " + System.getProperty("user.name"));//it show a welcome message for the system current system user
     	Clock clock = new Clock(time);
     	clock.start();
     	
@@ -158,7 +161,7 @@ public class MainController implements Initializable{
 	}
     
     @FXML
-    public void loadContents(ActionEvent actionEvent) throws IOException {
+    public void loadContents(ActionEvent actionEvent) throws IOException, InterruptedException {
     	
     	 if (actionEvent.getSource() == normalAccount) {
     		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AccountPage.fxml"));
@@ -240,6 +243,7 @@ public class MainController implements Initializable{
      	    initializeComboBoxTypesMovement();
      	    paneContents.getChildren().clear();
      	    paneContents.setCenter(movementScreen);
+     	
          }
          
     }
@@ -330,7 +334,7 @@ public class MainController implements Initializable{
     private Calendar calendar;
 
     @FXML
-    public void addMovement(ActionEvent event) {
+    public void addMovement(ActionEvent event) throws InterruptedException {
     	if (typesAccount.getSelectionModel().getSelectedItem() == null && 
     		accountOptions.getSelectionModel().getSelectedItem() == null && 
     		amountCashTxt.getText().isEmpty() && 
@@ -362,7 +366,6 @@ public class MainController implements Initializable{
         	String dateStr = date.getText();
         	String description = movementDescTxt.getText();
         	Movement movement;
-        	
         	switch (typesAccount.getSelectionModel().getSelectedIndex()) {
 			case 0: //saving account
 				movement = new Movement(account, amount, dateStr, description, type, category);
@@ -379,8 +382,6 @@ public class MainController implements Initializable{
 			case 3: //debt
 				movement = new Movement(account, amount, dateStr, description, type, category);
 				debt.addMovement(movement);
-				break;
-			default:
 				break;
 			}
     
@@ -444,8 +445,22 @@ public class MainController implements Initializable{
         typesMovement.setItems(types);
     }
      
-    public void initializeComboBoxCategoriesMovement() {
-    	
+    public void initializeComboBoxCategoriesMovement(int movementType) {
+    	ArrayList<String> categoriesNameList = new ArrayList<>();
+    	switch (movementType) {
+		case 0:
+	    	for (int i = 0; i < cashManager.getCategoryIncome().size(); i++) {
+				categoriesNameList.add(i,cashManager.getCategoryIncome().get(i).getName());
+			}
+			break;
+		case 1:
+	    	for (int i = 0; i < cashManager.getCategorySpend().size(); i++) {
+				categoriesNameList.add(i,cashManager.getCategorySpend().get(i).getName());
+			}
+			break;
+		}
+    	ObservableList<String> types = FXCollections.observableArrayList(categoriesNameList);
+    	categoriesMovement.setItems(types);
     }
     
 
@@ -963,13 +978,20 @@ public class MainController implements Initializable{
 		  warningAlert(bundle.getString("password.answerKeyQuestionTitle"), bundle.getString("password.answerKeyQuestionWarningMsg"));
 	  }	
 	  else {
+//		  String name;
+
+		  String password = registerPassword.getText();
+		  String keyQestion = registerKeyQuestion.getText();
+		  String keyAnswer = registerKeyAnswer.getText();
+		  cashManager.setUser(new User(password, keyQestion, keyAnswer));
+		  new Main().setLock(true);
 		  sendAlert(bundle.getString("password.registerTitle"), bundle.getString("password.registeredSuccesfully"));
 	  }
   }
   //----------------------------------------------------------------------------------------   
   
   
-  //-------------------------------------- createcategory--------------------------------------
+  //-------------------------------------- create category--------------------------------------
   
   @FXML
   private ComboBox<String> categoryType;
@@ -1005,8 +1027,9 @@ public class MainController implements Initializable{
 			}
 	  }
 		  
-  }
-				
+  }	
+ 
+
   public void setTypesCategory() {
 	  ObservableList<String> types = FXCollections.observableArrayList(CategoryType.values()[0].name(),CategoryType.values()[1].name());
 	  categoryType.setItems(types);
