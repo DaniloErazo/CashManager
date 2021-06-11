@@ -11,6 +11,7 @@ public class Saving extends MoneyManagement {
 	
 	public Saving(String name, double max) {
 		super(name, max);
+		payments = new ArrayList<Movement>();
 	}
 	
 	public void addPay(Movement pay) {
@@ -35,7 +36,8 @@ public class Saving extends MoneyManagement {
 		
 		double[] data = new double[2];
 		
-		data[1] = super.getMaxAmount()- totalPayment();
+		//calculate how much money is missing to complete the goal
+		data[0] = super.getMaxAmount()- totalPayment();
 		
 		return data;
 		

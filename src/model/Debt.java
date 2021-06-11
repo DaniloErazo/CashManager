@@ -15,6 +15,7 @@ public class Debt extends MoneyManagement implements Fee{
 		super(name, max);
 		this.interest=interest;
 		this.fees=fees;
+		feesPayed=0;
 	}
 
 	public double getInterest() {
@@ -68,11 +69,18 @@ public class Debt extends MoneyManagement implements Fee{
 		
 		double[] data = new double[2];
 		
-		double interestPaid = Finance.ipmt(interest, feesPayed, fees, -super.getMaxAmount());
-		
-		double moneyPaid = Finance.ppmt(interest, feesPayed, fees, -super.getMaxAmount());
-		data[0] = interestPaid;
-		data[1] = moneyPaid;
+		if(feesPayed!=0) {
+			double interestPaid = Finance.ipmt(interest, feesPayed, fees, -super.getMaxAmount());
+			
+			double moneyPaid = Finance.ppmt(interest, feesPayed, fees, -super.getMaxAmount());
+			data[0] = interestPaid;
+			data[1] = moneyPaid;
+		}else {
+			
+			data[0] = 0;
+			data[1] = 0;
+			
+		}
 		
 		
 		return data;

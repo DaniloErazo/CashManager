@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,6 +23,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -35,7 +37,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
@@ -516,7 +517,7 @@ public class MainController implements Initializable{
  		fxmlLoader.setController(this);
  		fxmlLoader.setResources(bundle);
  	    Parent analysisPage = fxmlLoader.load();
- 	    
+ 	    setPieChart1();
  	    paneContents.getChildren().clear();
  	    paneContents.setCenter(analysisPage);
 
@@ -647,9 +648,72 @@ public class MainController implements Initializable{
 
     @FXML
     private Label remainderBalance;
+    
+    @FXML
+    private PieChart pieChart1;
 
     @FXML
-    private HBox graphicsHBox;
+    private PieChart pieChart2;
+
+    
+    public void setPieChart1() {
+    	
+    	DecimalFormat df = new DecimalFormat("#");
+		df.setMaximumFractionDigits(0);
+    	
+		if(accountActual instanceof Saving && accountActual!=null) {
+			double[] data = accountActual.getAnalysisData();
+			double missing = data[0];
+			double paid = ((Saving) accountActual).totalPayment();
+			
+			df.format(missing);
+			remainderBalance.setText(String.valueOf(missing));
+			ObservableList<PieChart.Data> pieChartData = 
+					FXCollections.observableArrayList(
+	            new PieChart.Data(bundle.getString("saving.paid"), paid),
+	            new PieChart.Data(bundle.getString("saving.left"), missing));
+			
+			pieChart1.setData(pieChartData);
+	        pieChart1.setTitle(bundle.getString("saving.title") + ": " + accountActual.getNameMoneyManagment());
+		}
+ 	
+		if(accountActual instanceof Debt && accountActual!=null) {
+			double[] data = accountActual.getAnalysisData();
+			double interestPaid = data[0];
+			double totalPaid = data[1];
+			
+			double totalInterest =((Debt)accountActual).getInterest()*accountActual.getMaxAmount();
+			double totalDebt = accountActual.getMaxAmount();
+			
+			double remainder = ((totalDebt*((Debt)accountActual).getInterest())+totalDebt)-(interestPaid+totalPaid);
+			double balance = interestPaid+totalPaid;
+			
+			df.format(interestPaid);
+			df.format(totalPaid);
+			df.format(totalInterest);
+			df.format(totalDebt);
+			
+			remainderBalance.setText(String.valueOf(remainder));
+			finalBalance.setText(String.valueOf(balance));
+			
+			ObservableList<PieChart.Data> pieChartData1 = 
+					FXCollections.observableArrayList(
+	            new PieChart.Data(bundle.getString("interest.paid"), interestPaid),
+	            new PieChart.Data(bundle.getString("interest.left"), totalInterest-interestPaid));
+			
+			ObservableList<PieChart.Data> pieChartData2 = 
+					FXCollections.observableArrayList(
+	            new PieChart.Data(bundle.getString("money.paid"), totalPaid),
+	            new PieChart.Data(bundle.getString("money.left"), totalDebt-totalPaid));
+			
+			pieChart1.setData(pieChartData1);
+	        pieChart1.setTitle(bundle.getString("debt.interest.title") + ": " + accountActual.getNameMoneyManagment());
+	        
+	        pieChart2.setData(pieChartData2);
+	        pieChart1.setTitle(bundle.getString("debt.money.title") + ": " + accountActual.getNameMoneyManagment());
+		}
+    	
+    }
 	
     
   //-----------------------------------------------------------------------------------
