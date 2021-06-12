@@ -3,6 +3,7 @@ package model;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 public class MoneyManagement implements Analysis {
 
@@ -112,5 +113,32 @@ public class MoneyManagement implements Analysis {
 		}
 	}
 	//------------------------------------------------------------------------------
-
+	
+	//Methods to traverse the list--------------------------------------------------
+	private boolean empty() {
+		if (first == null) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public ArrayList<Movement> showMovements() {
+		ArrayList<Movement> movements = new ArrayList<>();
+		if (!empty()) {
+			movements.add(first);
+			movements.add(showMovements2(first));
+		}
+		return movements;
+	}
+	
+	private Movement showMovements2(Movement aux) {
+		Movement movement = null;
+		if (aux != null) {
+			movement = aux.getNext();
+		}
+		return movement;
+	}
+	//------------------------------------------------------------------------------
 }
