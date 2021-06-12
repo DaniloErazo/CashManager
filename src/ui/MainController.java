@@ -746,7 +746,7 @@ public class MainController implements Initializable{
 			
 			typeItem.addEventHandler(ActionEvent.ACTION, (e) -> {
 		        displaySavingAccount.setText(typeItem.getText());
-		        actualAccount = cashManager.accountExist(0, typeItem.getText());
+		        intializeTableviewSavingAccount((SavingAccount) cashManager.accountExist(0, typeItem.getText()));
 		    });
 			
 			displaySavingAccount.getItems().add(typeItem);
@@ -761,7 +761,7 @@ public class MainController implements Initializable{
 			
 			typeItem.addEventHandler(ActionEvent.ACTION, (e) -> {
 		        displayCreditAccounts.setText(typeItem.getText());
-		        actualAccount = cashManager.accountExist(1, typeItem.getText());
+		        intializeTableviewCreditAccount((CreditAccount) cashManager.accountExist(1, typeItem.getText()));
 		    });
 			
 			displayCreditAccounts.getItems().add(typeItem);
@@ -776,7 +776,7 @@ public class MainController implements Initializable{
 			
 			typeItem.addEventHandler(ActionEvent.ACTION, (e) -> {
 		        displayDebts.setText(typeItem.getText());
-		        accountActual = cashManager.accountExistM(3, typeItem.getText());
+		        intializeTableviewSavings((Saving) cashManager.accountExistM(2, typeItem.getText()));
 		    });
 			
 			displayDebts.getItems().add(typeItem);
@@ -791,7 +791,7 @@ public class MainController implements Initializable{
 			
 			typeItem.addEventHandler(ActionEvent.ACTION, (e) -> {
 		        displaySavings.setText(typeItem.getText());
-		        saving = (Saving)cashManager.accountExistM(2, typeItem.getText());
+		        intializeTableviewDebts((Debt) cashManager.accountExistM(3, typeItem.getText()));
 		    });
 			
 			displaySavings.getItems().add(typeItem);
@@ -839,8 +839,8 @@ public class MainController implements Initializable{
 		
     }
     
-    public void intializeTableviewCreditAccount(int accountSelected) {
-    	ObservableList<Movement> observableList = FXCollections.observableArrayList(cashManager.getCreditAccounts().get(accountSelected).inOrden());
+    public void intializeTableviewCreditAccount(CreditAccount account) {
+    	ObservableList<Movement> observableList = FXCollections.observableArrayList(account.inOrden());
 
     	creditAccountTv.setItems(observableList);
 		creditTypeTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("type"));
@@ -850,8 +850,8 @@ public class MainController implements Initializable{
 		creditDescriptionTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("description"));
     }
     
-    public void intializeTableviewSavingAccount(int accountSelected) {
-    	ObservableList<Movement> observableList = FXCollections.observableArrayList(cashManager.getSavingAccounts().get(accountSelected).inOrden());
+    public void intializeTableviewSavingAccount(SavingAccount account) {
+    	ObservableList<Movement> observableList = FXCollections.observableArrayList(account.inOrden());
 
     	savingAccountsTv.setItems(observableList);
 		savingAccountTypeTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("type"));
@@ -861,8 +861,8 @@ public class MainController implements Initializable{
 		savingAccountDescriptionTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("description"));
     }
     
-    public void intializeTableviewSavings(int accountSelected) {
-    	ObservableList<Movement> observableList = FXCollections.observableArrayList(cashManager.getSavings().get(accountSelected).showMovements());
+    public void intializeTableviewSavings(Saving account) {
+    	ObservableList<Movement> observableList = FXCollections.observableArrayList(account.showMovements());
 
     	savingsTv.setItems(observableList);
 		savingsTypeTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("type"));
@@ -872,8 +872,8 @@ public class MainController implements Initializable{
 		savingsDescriptionTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("description"));
     }
     
-    public void intializeTableviewDebts(int accountSelected) {
-    	ObservableList<Movement> observableList = FXCollections.observableArrayList(cashManager.getDebts().get(accountSelected).showMovements());
+    public void intializeTableviewDebts(Debt account) {
+    	ObservableList<Movement> observableList = FXCollections.observableArrayList(account.showMovements());
 
     	debtsTv.setItems(observableList);
 		debtsTypeTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("type"));

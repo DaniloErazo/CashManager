@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -45,10 +44,6 @@
                      </font>
                   </Label>
                   <SplitMenuButton fx:id="displayCreditAccounts" mnemonicParsing="false" style="-fx-background-color: #2A9D8F;" text="%display.accounts" GridPane.columnIndex="1">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1" />
-                      <MenuItem mnemonicParsing="false" text="Action 2" />
-                    </items>
                      <GridPane.margin>
                         <Insets bottom="10.0" left="20.0" top="10.0" />
                      </GridPane.margin>
