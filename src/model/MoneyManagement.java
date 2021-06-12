@@ -3,10 +3,15 @@ package model;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MoneyManagement implements Analysis {
+public class MoneyManagement implements Analysis, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String nameMoneyManagment;
 	private double maxAmount;
 	private Movement root;

@@ -2,6 +2,8 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.Test;
 
 class CashManagerTest {
@@ -12,7 +14,7 @@ class CashManagerTest {
 		cashManager = new CashManager();
 	}
 	
-	public void setupScenary2() {
+	public void setupScenary2() throws IOException {
 		cashManager = new CashManager();
 		
 		cashManager.createSavingAccount("Bancolombia", 400000);
@@ -31,7 +33,7 @@ class CashManagerTest {
 	}
 	
 	@Test
-	public void createSavingAccountTest() {
+	public void createSavingAccountTest() throws IOException {
 		setupScenary1();
 		
 		cashManager.createSavingAccount("Bancolombia", 400000);
@@ -46,7 +48,7 @@ class CashManagerTest {
 	}
 	
 	@Test
-	public void createCreditAccountTest() {
+	public void createCreditAccountTest() throws IOException {
 		
 		setupScenary1();
 		
@@ -62,7 +64,7 @@ class CashManagerTest {
 	}
 	
 	@Test 
-	public void createDebtTest() {
+	public void createDebtTest() throws IOException {
 		
 		setupScenary1();
 		
@@ -83,7 +85,7 @@ class CashManagerTest {
 	
 	@Test
 	
-	public void createSingleSavingTest() {
+	public void createSingleSavingTest() throws IOException {
 		setupScenary1();
 		
 		cashManager.createSaving("Apartamento", 4000000);
@@ -99,7 +101,7 @@ class CashManagerTest {
 	}
 	
 	@Test
-	public void accountExistTest() {
+	public void accountExistTest() throws IOException {
 		
 		setupScenary2();
 		

@@ -4,10 +4,15 @@ package model;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Account implements Analysis {
+public abstract class Account implements Analysis, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private Movement betweenAccount;
 	private Movement root;

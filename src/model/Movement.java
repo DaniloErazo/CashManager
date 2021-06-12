@@ -1,7 +1,13 @@
 package model;
 
-public class Movement {
+import java.io.Serializable;
+
+public class Movement implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String account;
 	private double amount;
 	private String date;

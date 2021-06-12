@@ -368,7 +368,7 @@ public class MainController implements Initializable{
     private int typeAccount;
 
     @FXML
-    public void addMovement(ActionEvent event) throws InterruptedException {
+    public void addMovement(ActionEvent event) throws InterruptedException, IOException {
     	if (accountOptions.getSelectionModel().getSelectedItem() == null && 
     		amountCashTxt.getText().isEmpty() && 
     		typesMovement.getSelectionModel().getSelectedItem() == null &&
@@ -396,6 +396,7 @@ public class MainController implements Initializable{
 			case 0: //saving account
 				movement = new Movement(account, amount, dateStr, description, type);
 				savingAccount.addMovement(movement);
+				
 				if (typesMovement.getSelectionModel().getSelectedIndex() == 0) {//income
 					totalCashDouble = totalCashDouble + amount;
 				}
@@ -425,6 +426,11 @@ public class MainController implements Initializable{
         	
         	movement = new Movement(account, amount, dateStr, description, type);
         	cashManager.addMovement(movement);//The new movement is added in the "main" binary search tree too
+        	cashManager.saveData("movements");
+        	cashManager.saveData("credit");
+        	cashManager.saveData("savingA");
+        	cashManager.saveData("savings");
+        	cashManager.saveData("debt");
         	sendAlert(bundle.getString("movement.addMovementTitle"), bundle.getString("movement.addedSuccesfullyMsg"));
 		}
     	else if (categoriesMovement.getSelectionModel().getSelectedItem() == null) { //A movement category has not been selected
@@ -474,6 +480,11 @@ public class MainController implements Initializable{
     
         	movement = new Movement(account, amount, dateStr, description, type, category);
         	cashManager.addMovement(movement);//The new movement is added in the "main" binary search tree too
+        	cashManager.saveData("movements");
+        	cashManager.saveData("credit");
+        	cashManager.saveData("savingA");
+        	cashManager.saveData("savings");
+        	cashManager.saveData("debt");
         	sendAlert(bundle.getString("movement.addMovementTitle"), bundle.getString("movement.addedSuccesfullyMsg"));
 		}
     }
@@ -719,7 +730,11 @@ public class MainController implements Initializable{
  		fxmlLoader.setController(this);
  		fxmlLoader.setResources(bundle);
  	    Parent analysisPage = fxmlLoader.load();
- 	    setPieChart1();
+ 	    
+ 	    if(debt!=null || saving!=null) {
+ 	    	setPieChart1();
+ 	    }
+ 	    
  	    paneContents.getChildren().clear();
  	    paneContents.setCenter(analysisPage);
 
@@ -954,13 +969,13 @@ public class MainController implements Initializable{
 			ObservableList<PieChart.Data> pieChartData2 = 
 					FXCollections.observableArrayList(
 	            new PieChart.Data(bundle.getString("money.paid"), totalPaid),
-	            new PieChart.Data(bundle.getString("money.left"), accountActual.getMaxAmount()-totalPaid));
+	            new PieChart.Data(bundle.getString("money.left"), debt.getMaxAmount()-totalPaid));
 			
 			pieChart1.setData(pieChartData1);
-	        pieChart1.setTitle(bundle.getString("debt.interest.title") + ": " + accountActual.getNameMoneyManagment());
+	        pieChart1.setTitle(bundle.getString("debt.interest.title") + ": " + debt.getNameMoneyManagment());
 	        
 	        pieChart2.setData(pieChartData2);
-	        pieChart2.setTitle(bundle.getString("debt.money.title") + ": " + accountActual.getNameMoneyManagment());
+	        pieChart2.setTitle(bundle.getString("debt.money.title") + ": " + debt.getNameMoneyManagment());
 		}
     	
     }
@@ -991,7 +1006,7 @@ public class MainController implements Initializable{
     //USe gather method from LaCasaDorada to get the values inputted by the user
     
     @FXML
-    public void createAccount(ActionEvent event) {
+    public void createAccount(ActionEvent event) throws IOException {
     	
     	ArrayList<String> dataGathered = gatherPrices(createAccountGrid);
     	
@@ -1330,7 +1345,7 @@ public class MainController implements Initializable{
   
 
   @FXML
-  public void createCategory(ActionEvent event) {
+  public void createCategory(ActionEvent event) throws IOException {
 	  
 	  String name = categoryNameTxt.getText();
 	  String type = categoryType.getValue();

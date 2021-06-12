@@ -4,6 +4,10 @@ import org.apache.poi.ss.formula.functions.Finance;
 
 public class Debt extends MoneyManagement implements Fee{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private double interest;
 	private int fees;
 	private double balance;

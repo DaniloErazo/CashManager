@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class CreditAccount extends Account implements Fee{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private double interest;
 	private double monthFee;
 	private double maxQuota;

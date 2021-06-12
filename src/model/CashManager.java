@@ -1,13 +1,21 @@
 package model;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import exceptions.ExistingCategoryException;
 
-public class CashManager {
 
+
+public class CashManager{
+	
 	private ArrayList<CreditAccount> creditAccounts;
 	private ArrayList<SavingAccount> savingAccounts;
 	private ArrayList<Debt> debts;
@@ -17,6 +25,16 @@ public class CashManager {
 	
 	private User user;
 	private Movement rootMovements; //This binary search three save the movements in general, They will show to the user in the main page
+	
+	
+	public final static String SAVE_PATH_FILE_CREDIT = "data/creditAccounts.cmn";
+	public final static String SAVE_PATH_FILE_SAVINGA = "data/savingAccounts.cmn";
+	public final static String SAVE_PATH_FILE_DEBT = "data/debts.cmn";
+	public final static String SAVE_PATH_FILE_SAVINGS = "data/savings.cmn";
+	public final static String SAVE_PATH_FILE_CATEGORYS = "data/categoryS.cmn";
+	public final static String SAVE_PATH_FILE_CATEGORYI = "data/categoryI.cmn";
+	public final static String SAVE_PATH_FILE_MOVEMENTS = "data/movements.cmn";
+	
 	
 	public CashManager() {
 		creditAccounts = new ArrayList<>();
@@ -28,25 +46,123 @@ public class CashManager {
 	}
 	
 	
+	public void saveData(String object) throws IOException  {
+		ObjectOutputStream oos;
+		if(object.equals("credit")) {
+			oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_CREDIT));
+			oos.writeObject(creditAccounts);
+			oos.close();
+		}else if (object.equals("savingA")) {
+			oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_SAVINGA));
+			oos.writeObject(savingAccounts);
+			oos.close();
+		}else if (object.equals("debt")) {
+			oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_DEBT));
+			oos.writeObject(debts);
+			oos.close();
+		}else if (object.equals("savings")) {
+			oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_SAVINGS));
+			oos.writeObject(savings);
+			oos.close();
+		}else if(object.equals("categoryS")) {
+			oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_CATEGORYS));
+			oos.writeObject(categorySpend);
+			oos.close();
+		}else if(object.equals("order")) {
+			oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_CATEGORYI));
+			oos.writeObject(categoryIncome);
+			oos.close();
+		}else if(object.equals("movements")) {
+			oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_MOVEMENTS));
+			oos.writeObject(rootMovements);
+			oos.close();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void loadData(String data) throws ClassNotFoundException, IOException {
+		File f = null;
+		if(data.equals("credit")) {
+			f = new File(SAVE_PATH_FILE_CREDIT);
+			if(f.exists()){
+			      ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+			      creditAccounts = (ArrayList<CreditAccount>)ois.readObject();
+			      
+			      ois.close();
+			    }
+		}else if(data.equals("savingA")) {
+			f= new File(SAVE_PATH_FILE_SAVINGA);
+			if(f.exists()){
+			      ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+			      savingAccounts = (ArrayList<SavingAccount>)ois.readObject();
+			      ois.close();
+			    }
+		}else if(data.equals("debt")) {
+			f = new File(SAVE_PATH_FILE_DEBT);
+			if(f.exists()){
+			      ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+			      debts = (ArrayList<Debt>)ois.readObject();
+			      
+			      ois.close();
+			    }
+		}else if(data.equals("savings")) {
+			f = new File(SAVE_PATH_FILE_SAVINGS);
+			if(f.exists()){
+			      ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+			      savings = (ArrayList<Saving>)ois.readObject();
+			      ois.close();
+			    }
+		}else if(data.equals("categoryS")) {
+			f = new File(SAVE_PATH_FILE_CATEGORYS);
+			if(f.exists()){
+			      ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+			      categorySpend = (ArrayList<Category>)ois.readObject();
+			      ois.close();
+			    }
+		}else if(data.equals("categoryI")) {
+			f = new File(SAVE_PATH_FILE_CATEGORYI);
+			if(f.exists()){
+			      ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+			      categoryIncome = (ArrayList<Category>)ois.readObject();
+			      ois.close();
+			    }
+		}else if(data.equals("movements")) {
+			f = new File(SAVE_PATH_FILE_MOVEMENTS);
+			if(f.exists()){
+			      ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+			      rootMovements = (Movement)ois.readObject();
+			      ois.close();
+			    }
+		}
+	    
+		 
+	}
+	
+	
+	
 	//-------------------- Create accounts ----------------------------------
-	public void createSavingAccount(String name, double money) {
+	public void createSavingAccount(String name, double money) throws IOException {
 		SavingAccount newAccount = new SavingAccount(name, money);
 		savingAccounts.add(newAccount);
+		saveData("savingA");
 	}
 	
-	public void createCreditAccount(String name, double interest, double quota) {
+	public void createCreditAccount(String name, double interest, double quota) throws IOException {
 		CreditAccount newAccount = new CreditAccount(name, interest, quota);
 		creditAccounts.add(newAccount);
+		saveData("credit");
 	}
 	
-	public void createDebt (String name, double interest, int fee, double money) {
+	public void createDebt (String name, double interest, int fee, double money) throws IOException {
 		Debt newDebt = new Debt(name, money, interest, fee);
 		debts.add(newDebt);
+		saveData("debt");
 	}
 	
-	public void createSaving(String name, double money) {
+	public void createSaving(String name, double money) throws IOException {
 		Saving newSaving = new Saving(name, money);
 		savings.add(newSaving);
+		saveData("savings");
 	}
 	
 	/**
@@ -193,17 +309,19 @@ public class CashManager {
 		
 	}
 	
-	public void createCateogry(String name, String type) {
+	public void createCateogry(String name, String type) throws IOException {
 		
 		Category newOne = new Category(name, CategoryType.valueOf(type));
 		
 		switch (type) {
 		case "SPEND":
 			categorySpend.add(newOne);
+			saveData("categoryS");
 			break;
 		
 		case "INCOME":
 			categoryIncome.add(newOne);
+			saveData("categoryI");
 			break;
 
 		default:
@@ -212,7 +330,7 @@ public class CashManager {
 		
 	}
 	
-	public void setDefaultCategories() {
+	public void setDefaultCategories() throws IOException {
 		createCateogry("Comida", "SPEND");
 		createCateogry("Transporte", "SPEND");
 		createCateogry("Entretenimiento", "SPEND");

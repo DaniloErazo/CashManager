@@ -1,5 +1,6 @@
 package ui;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -51,7 +52,7 @@ public class Main extends Application {
     @FXML
     private BorderPane borderpane;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ClassNotFoundException, IOException {
 		
 		
 		Locale.setDefault(new Locale("es", "CO"));
@@ -61,7 +62,15 @@ public class Main extends Application {
 
 		secondaryGUI = new SecondaryController(bundle, ppal);
 		
-
+		ppal.loadData("savingA");
+		ppal.loadData("credit");
+		ppal.loadData("debt");
+		ppal.loadData("savings");
+		ppal.loadData("categoryS");
+		ppal.loadData("categoryI");
+		ppal.loadData("movements");
+		
+		
 		
 		launch(args);
 		
