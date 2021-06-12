@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="767.0" style="-fx-background-color: #2A9D8F;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="767.0" style="-fx-background-color: #2A9D8F;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <Label text="%credit.accounts" BorderPane.alignment="CENTER">
          <font>
@@ -70,13 +70,13 @@
             </GridPane>
          </top>
          <left>
-            <TableView prefHeight="381.0" prefWidth="434.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="creditAccountTv" prefHeight="381.0" prefWidth="434.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn prefWidth="93.0" text="%table.movement" />
-                <TableColumn prefWidth="74.0" text="%table.amount" />
-                  <TableColumn prefWidth="81.0" text="%table.date" />
-                  <TableColumn prefWidth="84.0" text="%table.description" />
-                  <TableColumn prefWidth="43.0" text="%table.type" />
+                <TableColumn fx:id="creditTypeTc" prefWidth="93.0" text="%table.type" />
+                <TableColumn fx:id="creditAccountTc" prefWidth="74.0" text="%table.account" />
+                  <TableColumn fx:id="creditAmountTc" prefWidth="84.0" text="%table.amount" />
+                  <TableColumn fx:id="creditDateTc" prefWidth="43.0" text="%table.date" />
+                  <TableColumn fx:id="creditDescriptionTc" prefWidth="75.0" text="%table.description" />
               </columns>
                <BorderPane.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" />

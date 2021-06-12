@@ -300,10 +300,7 @@ public class MainController implements Initializable{
     }
     
 	private void initializeTableViewOfMovements() throws FileNotFoundException {
-    	ObservableList<Movement> observableList = null;
-    	if (cashManager.inOrden().size() != 0) {
-        	observableList = FXCollections.observableArrayList(cashManager.inOrden());
-		}
+    	ObservableList<Movement> observableList = FXCollections.observableArrayList(cashManager.inOrden());
 
 		lastMovementsTv.setItems(observableList);
 		typeTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("type"));
@@ -617,6 +614,82 @@ public class MainController implements Initializable{
     @FXML
     private Button exportAll;
     
+    //Credit account ------------------------
+    @FXML
+    private TableView<Movement> creditAccountTv;
+
+    @FXML
+    private TableColumn<Movement, String> creditTypeTc;
+
+    @FXML
+    private TableColumn<Movement, String> creditAccountTc;
+
+    @FXML
+    private TableColumn<Movement, String> creditAmountTc;
+
+    @FXML
+    private TableColumn<Movement, String> creditDateTc;
+
+    @FXML
+    private TableColumn<Movement, String> creditDescriptionTc;
+    
+    //Saving account------------------------------
+    @FXML
+    private TableView<Movement> savingAccountsTv;
+
+    @FXML
+    private TableColumn<Movement, String> savingAccountTypeTc;
+
+    @FXML
+    private TableColumn<Movement, String> savingAccountAcountTc;
+
+    @FXML
+    private TableColumn<Movement, String> savingAccountAmountTc;
+
+    @FXML
+    private TableColumn<Movement, String> savingAccountDateTc;
+
+    @FXML
+    private TableColumn<Movement, String> savingAccountDescriptionTc;
+    
+    //Savings------------------------------------------
+    @FXML
+    private TableView<Movement> savingsTv;
+
+    @FXML
+    private TableColumn<Movement, String> savingsTypeTc;
+
+    @FXML
+    private TableColumn<Movement, String> savingsAccountTc;
+
+    @FXML
+    private TableColumn<Movement, String> savingsAmountTc;
+
+    @FXML
+    private TableColumn<Movement, String> savingsDateTc;
+
+    @FXML
+    private TableColumn<Movement, String> savingsDescriptionTc;
+    
+    //Debts---------------------------------------------
+    @FXML
+    private TableView<Movement> debtsTv;
+
+    @FXML
+    private TableColumn<Movement, String> debtsTypeTc;
+
+    @FXML
+    private TableColumn<Movement, String> debtsAccountTc;
+
+    @FXML
+    private TableColumn<Movement, String> debtsAmountTc;
+
+    @FXML
+    private TableColumn<Movement, String> debtsDateTc;
+
+    @FXML
+    private TableColumn<Movement, String> debtsDescriptionTc;
+    
     @FXML
     public void openGraphicAnalysis(ActionEvent event) throws IOException {
     	
@@ -742,12 +815,54 @@ public class MainController implements Initializable{
 			}
 		}
 		
-		
+    }
+    
+    public void intializeTableviewCreditAccount(int accountSelected) {
+    	ObservableList<Movement> observableList = FXCollections.observableArrayList(cashManager.getCreditAccounts().get(accountSelected).inOrden());
+
+    	creditAccountTv.setItems(observableList);
+		creditTypeTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("type"));
+		creditAccountTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("account"));
+		creditAmountTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("amount"));
+	    creditDateTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("date"));
+		creditDescriptionTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("description"));
+    }
+    
+    public void intializeTableviewSavingAccount(int accountSelected) {
+    	ObservableList<Movement> observableList = FXCollections.observableArrayList(cashManager.getSavingAccounts().get(accountSelected).inOrden());
+
+    	savingAccountsTv.setItems(observableList);
+		savingAccountTypeTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("type"));
+		savingAccountAcountTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("account"));
+		savingAccountAmountTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("amount"));
+	    savingAccountDateTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("date"));
+		savingAccountDescriptionTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("description"));
+    }
+    
+    public void intializeTableviewSavings(int accountSelected) {
+    	ObservableList<Movement> observableList = FXCollections.observableArrayList(cashManager.getSavings().get(accountSelected).showMovements());
+
+    	savingsTv.setItems(observableList);
+		savingsTypeTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("type"));
+		savingsAccountTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("account"));
+		savingsAmountTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("amount"));
+	    savingsDateTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("date"));
+		savingsDescriptionTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("description"));
+    }
+    
+    public void intializeTableviewDebts(int accountSelected) {
+    	ObservableList<Movement> observableList = FXCollections.observableArrayList(cashManager.getDebts().get(accountSelected).showMovements());
+
+    	debtsTv.setItems(observableList);
+		debtsTypeTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("type"));
+		debtsAccountTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("account"));
+		debtsAmountTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("amount"));
+	    debtsDateTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("date"));
+		debtsDescriptionTc.setCellValueFactory(new PropertyValueFactory<Movement,String>("description"));
     }
     
   //-----------------------------------------------------------------------------------
     
-
   //---------------------------GraphicAnalysis.fxml -----------------------------------
     
     @FXML
