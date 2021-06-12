@@ -68,6 +68,10 @@ public class CashManager{
 			oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_CATEGORYS));
 			oos.writeObject(categorySpend);
 			oos.close();
+		}else if(object.equals("categoryI")) {
+			oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_CATEGORYS));
+			oos.writeObject(categoryIncome);
+			oos.close();
 		}else if(object.equals("order")) {
 			oos = new ObjectOutputStream(new FileOutputStream(SAVE_PATH_FILE_CATEGORYI));
 			oos.writeObject(categoryIncome);
