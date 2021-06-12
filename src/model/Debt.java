@@ -8,6 +8,7 @@ public class Debt extends MoneyManagement implements Fee{
 	private int fees;
 	private double balance;
 	private int feesPayed;
+	private double interestNTotal;
 	
 	public Debt() {}
 	
@@ -16,6 +17,7 @@ public class Debt extends MoneyManagement implements Fee{
 		this.interest=interest;
 		this.fees=fees;
 		feesPayed=0;
+		setInterestNTotal(calcultateMonthFee()*fees);
 	}
 
 	public double getInterest() {
@@ -75,9 +77,14 @@ public class Debt extends MoneyManagement implements Fee{
 		double capital = super.getMaxAmount()*-1;
 		
 		if(feesPayed!=0) {
-			double interestPaid = Finance.ipmt(interest, feesPayed, fees, capital);
+			double interestPaid = 0;
+			double moneyPaid =0;
 			
-			double moneyPaid = Finance.ppmt(interest, feesPayed, fees, -super.getMaxAmount());
+			for (int i = 1; i <= feesPayed; i++) {
+				interestPaid+=Finance.ipmt(interest, i, fees, capital);
+				moneyPaid += Finance.ppmt(interest, i, fees, capital);
+			}
+			
 			data[0] = interestPaid;
 			data[1] = moneyPaid;
 		}else {
@@ -97,6 +104,25 @@ public class Debt extends MoneyManagement implements Fee{
 		feesPayed++;
 		balance=totalPayment();
 		super.addMovement(newMovement);
+	}
+	
+	public double calculateFullInterest() {
+		double interestC=0;
+		double capital = super.getMaxAmount()*-1;
+		for (int i = 1; i <= fees; i++) {
+			interestC += Finance.ipmt(interest, i, fees, capital);
+		}
+		
+		return interestC;
+		
+	}
+
+	public double getInterestNTotal() {
+		return interestNTotal;
+	}
+
+	public void setInterestNTotal(double interestNTotal) {
+		this.interestNTotal = interestNTotal;
 	}
 
 }

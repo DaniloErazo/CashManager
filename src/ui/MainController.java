@@ -530,6 +530,26 @@ public class MainController implements Initializable{
     	
 	    ObservableList<String> accounts = FXCollections.observableArrayList(accountNameList);
     	accountOptions.setItems(accounts);
+    	
+    	accountOptions.setOnAction(e -> {
+    	    String accountName = accountOptions.getSelectionModel().getSelectedItem();
+    	    switch (typeAccount) {
+			case 0:
+				savingAccount = (SavingAccount)cashManager.accountExist(0, accountName);
+				break;
+			case 1:
+				creditAccount = (CreditAccount)cashManager.accountExist(1, accountName);
+				break;
+			case 2:
+				saving = (Saving)cashManager.accountExistM(2, accountName);
+				break;
+			case 3:
+				debt = (Debt)cashManager.accountExistM(3, accountName);
+				break;
+			default:
+				break;
+			}
+    	});
 	}
     
     public void setVisibleRowCategory(boolean visible) {
@@ -771,7 +791,7 @@ public class MainController implements Initializable{
 			
 			typeItem.addEventHandler(ActionEvent.ACTION, (e) -> {
 		        displaySavings.setText(typeItem.getText());
-		        //accountActual = cashManager.accountExistM(2, typeItem.getText());
+		        saving = (Saving)cashManager.accountExistM(2, typeItem.getText());
 		    });
 			
 			displaySavings.getItems().add(typeItem);
@@ -885,43 +905,43 @@ public class MainController implements Initializable{
     	DecimalFormat df = new DecimalFormat("#");
 		df.setMaximumFractionDigits(0);
     	
-		if(accountActual instanceof Saving && accountActual!=null) {
-			double[] data = accountActual.getAnalysisData();
+		if( saving!=null) {
+			
+			
+			double[] data = saving.getAnalysisData();
 			double missing = data[0];
-			double paid = ((Saving) accountActual).totalPayment();
+			double paid = saving.totalPayment();
 			
 			
 			
 			df.format(missing);
-			remainderBalance.setText(String.valueOf(accountActual.totalPayment()));
+			remainderBalance.setText(String.valueOf(saving.totalPayment()));
 			ObservableList<PieChart.Data> pieChartData = 
 					FXCollections.observableArrayList(
 	            new PieChart.Data(bundle.getString("saving.paid"), paid),
 	            new PieChart.Data(bundle.getString("saving.left"), missing));
 			
 			pieChart1.setData(pieChartData);
-	        pieChart1.setTitle(bundle.getString("saving.title") + ": " + accountActual.getNameMoneyManagment());
+	        pieChart1.setTitle(bundle.getString("saving.title") + ": " + saving.getNameMoneyManagment());
 		}
  	
-		if(accountActual instanceof Debt && accountActual!=null) {
-			double[] data = accountActual.getAnalysisData();
-			
+		if(debt!=null) {
+			double[] data = debt.getAnalysisData();
 			
 			double interestPaid = data[0];
 			double totalPaid = data[1];
 			
-			System.out.println(interestPaid +" " + totalPaid);
-			
-			double totalInterest =((Debt)accountActual).getInterest()*accountActual.getMaxAmount();
-			double totalDebt = accountActual.getMaxAmount()+totalInterest;
+			double totalDebt = debt.getInterestNTotal();
 			
 			double remainder = totalDebt-(interestPaid+totalPaid);
 			double balance = interestPaid+totalPaid;
 			
-//			df.format(interestPaid);
-//			df.format(totalPaid);
-//			df.format(totalInterest);
-//			df.format(totalDebt);
+			df.format(interestPaid);
+			df.format(totalPaid);
+			df.format(totalDebt);
+			df.format(totalDebt);
+			df.format(remainder);
+			df.format(balance);
 			
 			remainderBalance.setText(String.valueOf(remainder));
 			finalBalance.setText(String.valueOf(balance));
@@ -929,7 +949,7 @@ public class MainController implements Initializable{
 			ObservableList<PieChart.Data> pieChartData1 = 
 					FXCollections.observableArrayList(
 	            new PieChart.Data(bundle.getString("interest.paid"), interestPaid),
-	            new PieChart.Data(bundle.getString("interest.left"), totalInterest-interestPaid));
+	            new PieChart.Data(bundle.getString("interest.left"), debt.calculateFullInterest()-interestPaid));
 			
 			ObservableList<PieChart.Data> pieChartData2 = 
 					FXCollections.observableArrayList(
