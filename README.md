@@ -35,6 +35,7 @@ they spend the money. In addition to this, there's a graphic analysis of the dat
 ![Accounts](https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/Debts.PNG)
 ![Movement](https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/CreateMovement.png)
 <img src="https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/DataAnalysis.png" width="800" height="400">
+![RegisterPassword](https://github.com/DaniloErazo/CashManager/blob/main/docs/screenshots/RegisterPasswordPage.PNG)
 
 ## Code
 
