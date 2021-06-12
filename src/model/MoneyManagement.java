@@ -39,6 +39,10 @@ public class MoneyManagement implements Analysis {
 	public Movement getRoot() {
 		return root;
 	}
+	
+	public Movement getFirst() {
+		return first;
+	}
 
 	public void setRoot(Movement root) {
 		this.root = root;
@@ -70,6 +74,25 @@ public class MoneyManagement implements Analysis {
 			printExport(root.getRight(), pw);
 		}
 
+	}
+	
+	public double totalPayment() {
+		double paid = 0;
+		if (first!=null) {
+			paid = first.getAmount();
+			paid += totalPayment(first.getNext());
+		}
+		return paid;
+	}
+	
+	private double totalPayment(Movement current) {
+		double paid = 0;
+		if (current != first) {
+			paid = current.getAmount();
+			current = current.getNext();
+			paid += totalPayment(current);
+		}
+		return paid;
 	}
 
 	// Method to add a movement in the double linked list of movements-----------------------

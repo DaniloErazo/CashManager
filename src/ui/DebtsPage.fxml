@@ -101,7 +101,7 @@
                         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" style="-fx-background-color: #2A9D8F;" text="%add.movement" />
                         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="167.0" style="-fx-background-color: #2A9D8F;" text="%import.movement" GridPane.rowIndex="1" />
                         <Button fx:id="exportDebtAcc" mnemonicParsing="false" onAction="#exportMovements" prefHeight="25.0" prefWidth="165.0" style="-fx-background-color: #2A9D8F;" text="%export.movement" GridPane.rowIndex="2" />
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" style="-fx-background-color: #2A9D8F;" text="%graphic.analysis" GridPane.rowIndex="3" />
+                        <Button mnemonicParsing="false" onAction="#openGraphicAnalysis" prefHeight="25.0" prefWidth="164.0" style="-fx-background-color: #2A9D8F;" text="%graphic.analysis" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                </children>

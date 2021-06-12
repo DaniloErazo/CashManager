@@ -60,6 +60,7 @@ public class Main extends Application {
 		mainGUI = new MainController(bundle, ppal); 
 
 		secondaryGUI = new SecondaryController(bundle, ppal);
+		
 
 		
 		launch(args);

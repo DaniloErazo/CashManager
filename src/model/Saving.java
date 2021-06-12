@@ -14,22 +14,6 @@ public class Saving extends MoneyManagement {
 		payments = new ArrayList<Movement>();
 	}
 	
-	public void addPay(Movement pay) {
-		
-		payments.add(pay);
-	}
-	
-	public double totalPayment() {
-		
-		double payment=0;
-		
-		for (int i = 0; i < payments.size(); i++) {
-			payment+=payments.get(i).getAmount();
-		}
-		
-		return payment;
-		
-	}
 	
 	@Override
 	public double[] getAnalysisData() {
@@ -42,6 +26,7 @@ public class Saving extends MoneyManagement {
 		return data;
 		
 	}
+	
 	
 	public ArrayList<Movement> getPayments() {
 		return payments;

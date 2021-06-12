@@ -50,6 +50,9 @@ public class Debt extends MoneyManagement implements Fee{
 		return fee;
 		
 	}
+	
+	
+	
 
 	public int getFeesPayed() {
 		return feesPayed;
@@ -69,8 +72,10 @@ public class Debt extends MoneyManagement implements Fee{
 		
 		double[] data = new double[2];
 		
+		double capital = super.getMaxAmount()*-1;
+		
 		if(feesPayed!=0) {
-			double interestPaid = Finance.ipmt(interest, feesPayed, fees, -super.getMaxAmount());
+			double interestPaid = Finance.ipmt(interest, feesPayed, fees, capital);
 			
 			double moneyPaid = Finance.ppmt(interest, feesPayed, fees, -super.getMaxAmount());
 			data[0] = interestPaid;
@@ -85,6 +90,13 @@ public class Debt extends MoneyManagement implements Fee{
 		
 		return data;
 		
+	}
+	
+	@Override
+	public void addMovement(Movement newMovement) {
+		feesPayed++;
+		balance=totalPayment();
+		super.addMovement(newMovement);
 	}
 
 }

@@ -29,4 +29,11 @@ public class SavingAccount extends Account{
 	public void setAvailableMoney(double availableMoney) {
 		this.availableMoney = availableMoney;
 	}
+	
+	@Override
+	public double[] getAnalysisData() {
+		
+		return null;
+		
+	}
 }

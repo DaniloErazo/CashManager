@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-public abstract class Account {
+public abstract class Account implements Analysis {
 
 	private String name;
 	private Movement betweenAccount;
@@ -25,6 +25,10 @@ public abstract class Account {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public Movement getRoot() {
+		return root;
 	}
 
 
